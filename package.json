@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.12.4",
     "johnny-five": "^0.8.76",
-    "koa": "^0.20.0",
     "socket.io": "^1.3.5"
   }
 }
