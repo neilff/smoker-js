@@ -1,4 +1,13 @@
-#smoker.js Device
+# Smoker.js Server
 
-Smoker.js inspired by Derick Bailey's Arduino BBQ Thermometer
-https://blog.safaribooksonline.com/2013/07/25/an-arduino-powered-bbq-thermometer/
+> Smoker.js inspired by Derick Bailey's Arduino BBQ Thermometer
+
+## Description
+
+## Installation
+
+## Usage
+
+## Circuit
+
+## Development
