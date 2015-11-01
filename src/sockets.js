@@ -1,13 +1,17 @@
-var express = require('express');
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var CONSTANTS = require('./constants');
+'use strict';
+
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+const CONSTANTS = require('./constants');
+const PORT = process.env.PORT || 8080;
 
 function init() {
-  server.listen(8080);
+  server.listen(PORT);
 
-  console.log('Socket.io server running on http://localhost:8080');
+  console.log(`Socket.io server running on http://localhost:${ PORT }`);
 
   io.on('connection', function(socket) {
     socket.emit(CONSTANTS.CONNECTED, {

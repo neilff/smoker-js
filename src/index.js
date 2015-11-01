@@ -12,7 +12,7 @@ const sensorConfig = {
   freq: 1000
 };
 
-console.log('NODE_ENV: ', process.env.NODE_ENV);
+console.log('NODE_ENV :: ', process.env.NODE_ENV);
 
 sockets.init();
 

@@ -30,7 +30,7 @@ This assumes you have provided `PARTICLE_TOKEN` and `PARTICLE_DEVICE_ID` environ
 
 ## How to Build the Circuit
 
-Follow [Derick Bailey's](https://www.safaribooksonline.com/blog/2013/07/25/an-arduino-powered-bbq-thermometer/) guide on how to assemble a simple BBQ thermometer circuit.
+Follow [Derick Bailey's guide](https://www.safaribooksonline.com/blog/2013/07/25/an-arduino-powered-bbq-thermometer/) on how to assemble a simple BBQ thermometer circuit.
 
 The circuit will roughly look like this:
 
