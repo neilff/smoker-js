@@ -1,74 +1,46 @@
-'use strict';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const invariant = require('invariant');
-const convert = require('./util/convert');
-const sockets = require('./sockets');
+import { bindActionCreators } from 'redux';
+import { Provider } from 'react-redux';
+import { Route, IndexRoute } from 'react-router';
+import { ReduxRouter } from 'redux-router';
 
-const PARTICLE_TOKEN = process.env.PARTICLE_TOKEN;
-const PARTICLE_DEVICE_ID = process.env.PARTICLE_DEVICE_ID;
+import history from './config/history';
+import configureStore from './config/store';
+import SocketActions from './actions/socket';
+import socket from './config/socket';
 
-const sensorConfig = {
-  pin: 'A0',
-  freq: 1000
-};
+import App from './containers/App';
+import Display from './containers/Display';
+import Config from './containers/Config';
 
-console.log('NODE_ENV :: ', process.env.NODE_ENV);
+const rootElement = document.getElementById('root');
 
-sockets.init();
+const routes = (
+  <Route path="/" component={ App }>
+    <IndexRoute component={ Display } />
+    <Route
+      path="/config"
+      component={ Config } />
+  </Route>
+);
 
-if (process.env.NODE_ENV === 'DEV') {
-  console.log('Operating in DEV mode');
+const INITIAL_STATE = window.__INITIAL_STATE__ || {};
+console.info('Initial State :: ', INITIAL_STATE);
 
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+const store = configureStore(routes, history, INITIAL_STATE);
+const actions = bindActionCreators(SocketActions, store.dispatch);
 
-  setInterval(function() {
-    const tempF = getRandomInt(215, 230);
-    const tempC = getRandomInt(100, 115);
-    const tempK = getRandomInt(80, 95);
+socket.on('connect', actions.onConnected);
+socket.on('disconnect', actions.onDisconnected);
+socket.on('message', actions.onMessage);
 
-    const currentTemp = {
-      tempF: tempF,
-      tempC: tempC,
-      tempK: tempK
-    };
-
-    console.log('currentTemp :: ', currentTemp);
-
-    sockets.emitTempUpdate(currentTemp);
-  }, 1000);
-} else {
-  invariant(
-    PARTICLE_TOKEN,
-    'Particle Token not provided, please set the PARTICLE_TOKEN envirnment variable.'
-  );
-
-  invariant(
-    PARTICLE_DEVICE_ID,
-    'Particle Device ID not provided, please set the PARTICLE_DEVICE_ID envirnment variable.'
-  );
-
-  const j5 = require('johnny-five');
-  const Particle = require('particle-io');
-  const board = new j5.Board({
-    io: new Particle({
-      token: PARTICLE_TOKEN,
-      deviceId: PARTICLE_DEVICE_ID
-    })
-  });
-
-  board.on('ready', function() {
-    const thermistor = new j5.Sensor('A0');
-    let currentTemp = 0;
-
-    console.log('Board Ready');
-
-    this.analogRead('A1', function(data) {
-      currentTemp = convert.convertVoltToTemp(data);
-      console.log('currentTemp :: ', currentTemp);
-
-      sockets.emitTempUpdate(currentTemp);
-    });
-  });
-}
+ReactDOM.render(
+  <div>
+    <Provider store={ store }>
+      <ReduxRouter />
+    </Provider>
+  </div>,
+  rootElement
+);

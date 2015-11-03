@@ -1,0 +1,27 @@
+.hexagon {
+  position: relative;
+  width: 225px;
+  height: 129.90px;
+  background-color: #64C7CC;
+  margin: 64.95px 0;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    border-left: 112.5px solid transparent;
+    border-right: 112.5px solid transparent;
+  }
+
+  &:before {
+    bottom: 100%;
+    border-bottom: 64.95px solid #64C7CC;
+  }
+
+  &:after {
+    top: 100%;
+    width: 0;
+    border-top: 64.95px solid #64C7CC;
+  }
+}

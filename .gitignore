@@ -1,3 +1,7 @@
-/node_modules
-/build
-/bower_components
+.DS_Store
+node_modules
+npm-debug.log
+dist/
+keys.js
+static/
+build/

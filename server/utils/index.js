@@ -1,3 +1,9 @@
+const sanitizer = require('sanitizer');
+
+export function isDefined(val) {
+  return val && typeof val !== 'undefined' && val !== null;
+}
+
 /**
  * Takes in voltage from thermistor and converts it to celcius, fahrenheit,
  * and kelvin measurements.
@@ -8,7 +14,7 @@
  * @param {integer} volt Voltage from thermistor
  * @return {object} Conversions for kelvin, celcius, fahrenheit
  */
-function convertVoltToTemp(volt) {
+export function convertVoltToTemp(volt) {
   var tempK;
   var tempC;
   var tempF;
@@ -34,6 +40,22 @@ function convertVoltToTemp(volt) {
   };
 }
 
-module.exports = {
-  convertVoltToTemp: convertVoltToTemp
-};
+export function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function scrub(text) {
+  if (isDefined(text)) {
+
+    // clip the string if it is too long
+    if (text.length > 65535) {
+      text = text.substr(0,65535);
+    }
+
+    return text === false || text === true ?
+      text :
+      sanitizer.sanitize(text);
+  } else {
+    return null;
+  }
+}
