@@ -1,3 +1,5 @@
+require('./styles/base.scss');
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -15,7 +17,7 @@ import App from './containers/App';
 import Display from './containers/Display';
 import Config from './containers/Config';
 
-const rootElement = document.getElementById('root');
+import Button from './components/ui/Button';
 
 const routes = (
   <Route path="/" component={ App }>
@@ -42,5 +44,5 @@ ReactDOM.render(
       <ReduxRouter />
     </Provider>
   </div>,
-  rootElement
+  document.getElementById('root')
 );

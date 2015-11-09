@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import ContentWrapper from '../components/ui/ContentWrapper';
+import Navigator from '../components/navigator/Navigator';
+
 const mapStateToProps = (state) => {
   return {};
 }
@@ -11,10 +14,12 @@ const mapDispatchToProps = (dispatch) => {
 
 const App = ({ children }) => {
   return (
-    <div>
-      <h1>App</h1>
-      { children }
-    </div>
+    <main>
+      <Navigator />
+      <ContentWrapper>
+        { children }
+      </ContentWrapper>
+    </main>
   );
 }
 

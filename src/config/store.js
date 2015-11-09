@@ -1,8 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import Immutable from 'immutable';
+
+import { ON_TEMP_UPDATE } from '../../shared';
+
 import createLogger from 'redux-logger';
-import { devTools } from 'redux-devtools';
+import thunkMiddleware from 'redux-thunk';
 import { reduxReactRouter } from 'redux-router';
+import persistState from 'redux-localstorage';
 
 import socketMiddleware from '../middleware/socket';
 
@@ -21,7 +25,16 @@ const logger = createLogger({
     }
     return newState;
   },
+  predicate: (getState, action) => action.type !== ON_TEMP_UPDATE,
 });
+
+const storageConfig = {
+  key: 'smokerjs',
+  serialize: (state) => JSON.stringify(state.settings.toJS()),
+  deserialize: (state) => ({
+    settings: Immutable.fromJS(JSON.parse(state)),
+  }),
+};
 
 export default function configureStore(routes, history, initialState = {}) {
   const store = compose(
@@ -31,9 +44,10 @@ export default function configureStore(routes, history, initialState = {}) {
     }),
     applyMiddleware(
       socketMiddleware,
+      thunkMiddleware,
       logger,
     ),
-    devTools(),
+    persistState('settings', storageConfig),
   )(createStore)(rootReducer, initialState);
 
   if (module.hot) {

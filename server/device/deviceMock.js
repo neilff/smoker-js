@@ -1,21 +1,18 @@
-import { getRandomInt } from '../utils';
+import { getRandomInt, convertVoltToK } from '../utils';
 import { ON_TEMP_UPDATE } from '../../shared';
+import { TIME_FREQ } from '../config';
 
 export default function deviceMock(io) {
   console.log('Simulating Photon device...');
 
   setInterval(function() {
-    const currentTemp = {
-      tempF: getRandomInt(215, 230),
-      tempC: getRandomInt(100, 115),
-      tempK: getRandomInt(80, 95)
-    };
-
-    console.log('currentTemp :: ', currentTemp);
-
     io.sockets.emit('message', {
       type: ON_TEMP_UPDATE,
-      payload: currentTemp
+      payload: {
+        A: convertVoltToK(getRandomInt(550, 575)),
+        B: convertVoltToK(getRandomInt(550, 575)),
+        C: convertVoltToK(getRandomInt(550, 575)),
+      }
     });
-  }, 1000);
+  }, TIME_FREQ);
 }

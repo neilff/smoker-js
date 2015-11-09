@@ -2,14 +2,11 @@ import five from 'johnny-five';
 import Particle from 'particle-io';
 import invariant from 'invariant';
 import { ON_TEMP_UPDATE } from '../../shared';
+import { TIME_FREQ } from '../config';
+import { convertVoltToK } from '../utils';
 
 const PARTICLE_TOKEN = process.env.PARTICLE_TOKEN;
 const PARTICLE_DEVICE_ID = process.env.PARTICLE_DEVICE_ID;
-
-const sensorConfig = {
-  pin: 'A0',
-  freq: 1000
-};
 
 export default function connectPhoton(io) {
   invariant(
@@ -36,13 +33,15 @@ export default function connectPhoton(io) {
 
     var sensor = new five.Sensor({
       pin: 'A1',
-      freq: 250
+      freq: TIME_FREQ
     });
 
     sensor.on('change', function() {
+      const val = this.value;
+
       io.sockets.emit('message', {
         type: ON_TEMP_UPDATE,
-        payload: this.value
+        payload: convertVoltToK(val)
       });
     });
   });

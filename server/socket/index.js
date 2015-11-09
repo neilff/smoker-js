@@ -6,7 +6,7 @@ export default function configureSocket(io) {
     socket.emit('connected');
   });
 
-  if (process.env.NODE_ENV === 'DEV') {
+  if (process.env.NODE_ENV !== 'production') {
     deviceMock(io);
   } else {
     connectPhoton(io);

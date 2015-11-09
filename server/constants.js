@@ -1,8 +1,3 @@
-'use strict';
+const constants = {};
 
-const CONSTANTS = {
-  CONNECTED: 'onConnection',
-  TEMP_UPDATE: 'onTempUpdate'
-};
-
-module.exports = CONSTANTS;
+export default constants;

@@ -1,0 +1,23 @@
+@import '../../node_modules/basscss/css/basscss.css';
+@import '../../node_modules/ionicons/scss/ionicons.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: #212121;
+  color: #FFFFFF;
+  font-family: 'Roboto';
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto';
+  // font-weight: 100;
+}
