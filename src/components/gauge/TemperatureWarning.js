@@ -17,6 +17,7 @@ const TemperatureWarning = ({ children, className = '', showWarning }) => {
 const styles = {
   base: {
     transition: 'all 250ms',
+    margin: '0 0 0.5rem',
   },
   isVisible: {
     visibility: 'visible',

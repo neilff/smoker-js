@@ -3,9 +3,9 @@ import { handleActions } from 'redux-actions';
 import { ON_TEMP_UPDATE } from '../../shared';
 
 const INITIAL_STATE = fromJS({
-  A: 0,
-  B: 0,
-  C: 0,
+  A: 273.15,
+  B: 273.15,
+  C: 273.15,
 });
 
 const readingsReducer = handleActions({

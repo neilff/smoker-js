@@ -1,8 +1,10 @@
 import React from 'react';
 
-const InputNumber = ({ min, max, value, onChange }) => {
+const InputNumber = ({ style = {}, className = '', min, max, value, onChange }) => {
   return (
     <input
+      style={{ ...style }}
+      className={ className }
       type="number"
       name="quantity"
       value={ value }
