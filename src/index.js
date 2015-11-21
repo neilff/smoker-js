@@ -1,3 +1,5 @@
+/* @flow */
+
 require('./styles/base.scss');
 
 import React from 'react';

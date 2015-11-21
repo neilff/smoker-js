@@ -5,6 +5,7 @@ import Circle from '../ui/Circle';
 import SetThreshold from './SetThreshold';
 import TemperatureReading from './TemperatureReading';
 import TemperatureWarning from './TemperatureWarning';
+import PieGraph from '../graphs/PieGraph';
 
 const Gauge = (props) => {
   const {
@@ -80,6 +81,8 @@ const Gauge = (props) => {
         showWarning={ reading > highThreshold }>
         High Warning
       </TemperatureWarning>
+
+      <PieGraph percent={ (reading / highThreshold).toFixed(2) * 100 } />
     </div>
   );
 }
