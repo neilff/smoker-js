@@ -1,12 +1,52 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import { Map } from 'immutable';
 
 import TransitionPath from './common/TransitionPath';
 
-const LineGraph = ({ readings, resolution, height, width, min, max }) => {
-  return (
-    <div>
-      <svg width={ width } height={ height }>
+class LineGraph extends Component {
+  static propTypes = {
+    height: PropTypes.number,
+    max: PropTypes.number,
+    min: PropTypes.number,
+    readings: PropTypes.instanceOf(Map).isRequired,
+    resolution: PropTypes.number,
+    width: PropTypes.number,
+  }
+
+  static defaultProps = {
+    height: 480,
+    max: 350,
+    min: 0,
+    resolution: 300,
+    width: 960,
+  }
+
+  componentDidMount() {
+    const elem = findDOMNode(this);
+
+    const yAxisLeft = d3.svg.axis()
+      .scale(this.y)
+      .ticks(4)
+      .orient('left');
+
+    d3.select(elem)
+      .append('g')
+      .attr('class', 'x axis')
+      .attr('transform', `translate(50, 20)`)
+      .call(yAxisLeft);
+  }
+
+  render() {
+    const {
+      width,
+      height,
+      readings,
+      resolution,
+    } = this.props;
+
+    return (
+      <svg className="mt2 mb2" id="graph" width={ width } height={ height }>
         <defs>
           <clipPath id="clip">
             <rect
@@ -14,44 +54,33 @@ const LineGraph = ({ readings, resolution, height, width, min, max }) => {
               height={ height }></rect>
           </clipPath>
         </defs>
-        <g transform="translate(40, 20)">
+        <g transform="translate(60, 20)">
           <g clipPath="url(#clip)">
             {
               readings.map((i, idx) => {
                 return (
                   <TransitionPath
-                    height={ height }
                     key={ idx }
-                    max={ max }
-                    min={ min }
-                    reading={ i }
                     resolution={ resolution }
-                    width={ width } />
+                    x={ this.x.bind(this) }
+                    y={ this.y.bind(this) }
+                    reading={ i } />
                 );
               })
             }
           </g>
         </g>
       </svg>
-    </div>
-  );
-};
+    );
+  }
 
-LineGraph.displayName = 'LineGraph';
-LineGraph.propTypes = {
-  height: PropTypes.number,
-  max: PropTypes.number,
-  min: PropTypes.number,
-  readings: PropTypes.instanceOf(Map).isRequired,
-  resolution: PropTypes.number,
-  width: PropTypes.number,
-};
-LineGraph.defaultProps = {
-  height: 480,
-  max: 350,
-  min: 0,
-  resolution: 300,
-  width: 960,
-};
+  x = d3.scale.linear()
+        .domain([0, this.props.resolution - 1])
+        .range([0, this.props.width - 40])
+
+  y = d3.scale.linear()
+        .domain([this.props.min, this.props.max])
+        .range([this.props.height - 40, 0])
+}
 
 export default LineGraph;

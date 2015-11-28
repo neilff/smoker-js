@@ -7,12 +7,10 @@ import { range } from 'ramda';
 class TransitionPath extends Component {
   static propTypes = {
     reading: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
     style: PropTypes.object,
-    width: PropTypes.number.isRequired,
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
     resolution: PropTypes.number.isRequired,
+    x: PropTypes.func.isRequired,
+    y: PropTypes.func.isRequired,
   }
 
   defaultProps = {
@@ -21,25 +19,14 @@ class TransitionPath extends Component {
 
   componentDidMount() {
     const {
-      width,
-      height,
-      min,
-      max,
+      x,
+      y,
       resolution,
     } = this.props;
 
     let data = List(range(0, resolution)).map(() => 0);
 
     const elem = findDOMNode(this);
-    const length = data.size;
-
-    const x = d3.scale.linear()
-      .domain([0, length - 1])
-      .range([0, width - 40]);
-
-    const y = d3.scale.linear()
-      .domain([min, max])
-      .range([height - 40, 0]);
 
     const line = d3.svg.line()
       .x((d, i) => x(i))

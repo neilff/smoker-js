@@ -50,6 +50,7 @@ const Dashboard = (props) => {
   } = props;
 
   const convertReading = conversionTable[settings.get('displayUnit')];
+  const convertedReadings = readings.map(i => convertReading(i));
 
   const gauges = readings.keySeq().map(idx => {
     const reading = convertReading(readings.get(idx));
@@ -85,11 +86,11 @@ const Dashboard = (props) => {
 
       <Row>
         <LineGraph
-          min={ 300 }
+          min={ 0 }
           max={ 500 }
           height={ 240 }
           width={ 1024 }
-          readings={ readings } />
+          readings={ convertedReadings } />
       </Row>
     </div>
   );
