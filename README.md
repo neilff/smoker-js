@@ -1,4 +1,4 @@
-# Smoker.js Server
+# Smoker.js
 
 > Smoker.js is a Johhny Five BBQ thermometer powered by a Particle Photon
 
