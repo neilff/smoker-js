@@ -1,57 +1,55 @@
-var convert = require('./util/convert');
-var sockets = require('./sockets');
+require('./styles/base.scss');
 
-const sensorConfig = {
-  pin: 'A0',
-  freq: 100
-};
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-console.log('NODE_ENV: ', process.env.NODE_ENV);
+import { bindActionCreators } from 'redux';
+import { Provider } from 'react-redux';
+import { Route, IndexRoute } from 'react-router';
+import { ReduxRouter } from 'redux-router';
 
-sockets.init();
+import history from './config/history';
+import configureStore from './config/store';
+import socket from './config/socket';
 
-if (process.env.NODE_ENV === 'dev') {
-  console.log('Operating in dev mode');
+import {
+  onConnected,
+  onDisconnected,
+  onMessage,
+} from './reducers/socket';
 
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+import App from './containers/App';
+import Display from './containers/Display';
+import Config from './containers/Config';
 
-  setInterval(function() {
-    var tempF = getRandomInt(215, 230);
-    var tempC = getRandomInt(100, 115);
-    var tempK = getRandomInt(80, 95);
+const routes = (
+  <Route path="/" component={ App }>
+    <IndexRoute component={ Display } />
+    <Route path="/config" component={ Config } />
+  </Route>
+);
 
-    var data = {
-      tempF: tempF,
-      tempC: tempC,
-      tempK: tempK
-    };
+const INITIAL_STATE = window.__INITIAL_STATE__ || {};
 
-    console.log(data);
+console.info('Initial State :: ', INITIAL_STATE);
 
-    sockets.emitTempUpdate(data);
-  }, 1000);
-} else {
+const store = configureStore(routes, history, INITIAL_STATE);
 
-var j5 = require('johnny-five');
-var board = new j5.Board();
+const socketActions = bindActionCreators({
+  onConnected,
+  onDisconnected,
+  onMessage,
+}, store.dispatch);
 
-  board.on('ready', function() {
-    var thermistor = new j5.Sensor(sensorConfig);
-    var currentTemp = 0;
+socket.on('connect', socketActions.onConnected);
+socket.on('disconnect', socketActions.onDisconnected);
+socket.on('message', socketActions.onMessage);
 
-    console.log('board ready');
-
-    thermistor.on('change', function onChange(err, thmVoltage) {
-      if (err) {
-        console.error(err);
-      }
-
-      currentTemp = convert.convertVoltToTemp(thmVoltage);
-      console.log('Current TempF: ', currentTemp.tempF);
-
-      sockets.emitTempUpdate(currentTemp);
-    });
-  });
-}
+ReactDOM.render(
+  <div>
+    <Provider store={ store }>
+      <ReduxRouter />
+    </Provider>
+  </div>,
+  document.getElementById('root')
+);
