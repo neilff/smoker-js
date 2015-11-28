@@ -53,7 +53,7 @@ const Dashboard = (props) => {
   const convertedReadings = readings.map(i => convertReading(i));
 
   const gauges = readings.keySeq().map(idx => {
-    const reading = convertReading(readings.get(idx));
+    const reading = convertReading(readings.get(idx, 0));
     const highThreshold = convertReading(settings.getIn(['gauges', idx, 'high'])).toFixed();
     const lowThreshold = convertReading(settings.getIn(['gauges', idx, 'low'])).toFixed();
     const title = settings.getIn(['gauges', idx, 'title']);

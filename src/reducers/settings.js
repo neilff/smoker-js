@@ -76,7 +76,9 @@ export function setThreshold(key, id, value) {
       type: SET_THRESHOLD_SETTING,
       payload: {
         path: [id, key],
-        value: convertToK[unit](value),
+        value: isNaN(value) ?
+          convertToK[unit](0) :
+          convertToK[unit](value),
       },
     });
   };

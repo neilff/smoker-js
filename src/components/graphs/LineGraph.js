@@ -23,6 +23,8 @@ class LineGraph extends Component {
   }
 
   componentDidMount() {
+    const { width } = this.props;
+
     const elem = findDOMNode(this);
 
     const yAxisLeft = d3.svg.axis()
@@ -30,11 +32,22 @@ class LineGraph extends Component {
       .ticks(4)
       .orient('left');
 
+    const yAxisRight = d3.svg.axis()
+      .scale(this.y)
+      .ticks(4)
+      .orient('right');
+
     d3.select(elem)
       .append('g')
-      .attr('class', 'x axis')
+      .attr('class', 'y axis')
       .attr('transform', `translate(50, 20)`)
       .call(yAxisLeft);
+
+    d3.select(elem)
+      .append('g')
+      .attr('class', 'y axis')
+      .attr('transform', `translate(${ width - 50 }, 20)`)
+      .call(yAxisRight);
   }
 
   render() {
@@ -50,7 +63,7 @@ class LineGraph extends Component {
         <defs>
           <clipPath id="clip">
             <rect
-              width={ width - 50 }
+              width={ width - 120 }
               height={ height }></rect>
           </clipPath>
         </defs>
@@ -76,7 +89,7 @@ class LineGraph extends Component {
 
   x = d3.scale.linear()
         .domain([0, this.props.resolution - 1])
-        .range([0, this.props.width - 40])
+        .range([0, this.props.width - 120])
 
   y = d3.scale.linear()
         .domain([this.props.min, this.props.max])

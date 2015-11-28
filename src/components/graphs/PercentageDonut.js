@@ -18,6 +18,7 @@ const PercentageDonut = (props) => {
   } = props;
 
   const calculateArc = calculateDonutArc(width, radius);
+  const calculateArcInside = calculateDonutArc(width, radius + 2);
 
   return (
     <Chart width={ width } height={ width }>
@@ -31,6 +32,11 @@ const PercentageDonut = (props) => {
           }></path>
       </g>
       <g className="arc">
+        <AnimatedFixedPath
+          arc={ calculateArcInside }
+          fill={ '#111' }
+          endAngle={ convertValue(value) } />
+
         <AnimatedFixedPath
           arc={ calculateArc }
           fill={ primaryColor }

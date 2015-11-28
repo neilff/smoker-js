@@ -47,7 +47,7 @@ class TransitionPath extends Component {
         .attr('transform', null)
         .transition()
           .ease('linear')
-          .duration(1000)
+          .duration(250)
           .attr('transform', `translate(${ x(-1) })`)
           .each('end', tick);
 

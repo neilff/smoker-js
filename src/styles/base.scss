@@ -26,7 +26,7 @@ h6 {
   shape-rendering: crispEdges;
 }
 
-.x.axis {
+.y.axis {
   line {
     stroke: none;
   }
@@ -44,13 +44,5 @@ h6 {
   path {
     fill: none;
     stroke: #ff4136;
-  }
-}
-
-.y.axis {
-  line,
-  path {
-    fill: none;
-    stroke: #000;
   }
 }

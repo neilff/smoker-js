@@ -19,12 +19,12 @@ import {
 } from './reducers/socket';
 
 import App from './containers/App';
-import Display from './containers/Display';
+import Dashboard from './containers/Dashboard';
 import Config from './containers/Config';
 
 const routes = (
   <Route path="/" component={ App }>
-    <IndexRoute component={ Display } />
+    <IndexRoute component={ Dashboard } />
     <Route path="/config" component={ Config } />
   </Route>
 );

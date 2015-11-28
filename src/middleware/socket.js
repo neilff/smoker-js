@@ -1,5 +1,5 @@
 import socket from '../config/socket';
-import { SEND_SOCKET } from '../constants';
+import { SEND_SOCKET } from '../reducers/socket';
 
 const socketMiddleware = ({dispatch}) => next => action => {
   const socketAction = action[SEND_SOCKET];

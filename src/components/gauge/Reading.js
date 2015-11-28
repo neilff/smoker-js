@@ -18,7 +18,7 @@ const styles = {
   measurement: {
     fontSize: '4rem',
     fontWeight: '100',
-    top: '4.75rem',
+    top: '5rem',
   },
   sup: {
     fontSize: '2rem',
