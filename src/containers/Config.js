@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import BarGraph from '../components/graphs/BarGraph';
-import PieGraph from '../components/graphs/PieGraph';
 
 const mapStateToProps = () => {
   return {};
@@ -19,10 +18,6 @@ const Config = () => {
 
       <div>
         <BarGraph />
-      </div>
-
-      <div>
-        <PieGraph percent={ 35 } />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 const config = {
-  TIME_FREQ: 1000
+  TIME_FREQ: 500
 };
 
 export default config;

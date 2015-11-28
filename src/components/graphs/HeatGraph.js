@@ -1,10 +1,11 @@
 import React, { PropTypes, Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { Map } from 'immutable';
+import { convertFahrenheitToC } from '../../utils/conversion';
 
 import TransitionPath from './common/TransitionPath';
 
-class LineGraph extends Component {
+class HeatGraph extends Component {
   static propTypes = {
     height: PropTypes.number,
     max: PropTypes.number,
@@ -30,11 +31,13 @@ class LineGraph extends Component {
     const yAxisLeft = d3.svg.axis()
       .scale(this.y)
       .ticks(4)
+      .tickFormat(f => `${ f }°F`)
       .orient('left');
 
     const yAxisRight = d3.svg.axis()
       .scale(this.y)
       .ticks(4)
+      .tickFormat(f => `${ convertFahrenheitToC(f).toFixed() }°C`)
       .orient('right');
 
     d3.select(elem)
@@ -96,4 +99,4 @@ class LineGraph extends Component {
         .range([this.props.height - 40, 0])
 }
 
-export default LineGraph;
+export default HeatGraph;

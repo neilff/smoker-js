@@ -20,7 +20,7 @@ const conversionTable = {
 import Column from '../components/common/Column';
 import Row from '../components/common/Row';
 import Gauge from '../components/gauge/Gauge';
-import LineGraph from '../components/graphs/LineGraph';
+import HeatGraph from '../components/graphs/HeatGraph';
 import Button from '../components/common/Button';
 
 const mapStateToProps = (state) => {
@@ -50,7 +50,7 @@ const Dashboard = (props) => {
   } = props;
 
   const convertReading = conversionTable[settings.get('displayUnit')];
-  const convertedReadings = readings.map(i => convertReading(i));
+  const convertedReadings = readings.map(i => conversionTable.F(i));
 
   const gauges = readings.keySeq().map(idx => {
     const reading = convertReading(readings.get(idx, 0));
@@ -85,7 +85,7 @@ const Dashboard = (props) => {
       </Row>
 
       <Row>
-        <LineGraph
+        <HeatGraph
           min={ 0 }
           max={ 500 }
           height={ 240 }

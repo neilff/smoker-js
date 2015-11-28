@@ -25,7 +25,7 @@ const Gauge = (props) => {
         <PercentageDonut
           value={ ((reading - lowThreshold) / (highThreshold - lowThreshold)).toFixed(2) * 100 }
           width={ 300 }
-          radius={ 10 }
+          radius={ 4 }
           primaryColor={ reading < lowThreshold ? '#0074d9' : '#ff4136' }
           secondaryColor={ '#212121' } />
 
@@ -56,14 +56,15 @@ const Gauge = (props) => {
       </div>
 
       <Warning
-        className="bg-blue white"
-        showWarning={ reading < lowThreshold }>
+        className="white bg-blue"
+
+        isVisible={ reading < lowThreshold }>
         Low Warning
       </Warning>
 
       <Warning
-        className="bg-red white"
-        showWarning={ reading > highThreshold }>
+        className="white bg-red"
+        isVisible={ reading > highThreshold }>
         High Warning
       </Warning>
     </div>

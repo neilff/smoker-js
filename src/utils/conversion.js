@@ -1,9 +1,3 @@
-/**
- * Takes in kelvin and converts it to Fahrenheit.
- *
- * @param {integer} K Kelvin
- * @return {object} Conversion to fahrenheit
- */
 export function convertKelvinToF(K) {
   let tempF;
 
@@ -14,12 +8,6 @@ export function convertKelvinToF(K) {
   return tempF;
 }
 
-/**
- * Takes in kelvin and converts it to Celcius.
- *
- * @param {integer} K Kelvin
- * @return {object} Conversion to celcius
- */
 export function convertKelvinToC(K) {
   let tempC;
 
@@ -30,12 +18,6 @@ export function convertKelvinToC(K) {
   return tempC;
 }
 
-/**
- * Takes in fahrenheit and converts it to Kelvin.
- *
- * @param {integer} F Fahrenheit
- * @return {object} Conversion to kelvin
- */
 export function convertFahrenheitToK(F) {
   let tempK;
 
@@ -46,12 +28,10 @@ export function convertFahrenheitToK(F) {
   return tempK;
 }
 
-/**
- * Takes in celcius and converts it to Kelvin.
- *
- * @param {integer} C Celcius
- * @return {object} Conversion to kelvin
- */
+export function convertFahrenheitToC(F) {
+  return (F - 32) / 1.8;
+}
+
 export function convertCelciusToK(C) {
   let tempK;
 

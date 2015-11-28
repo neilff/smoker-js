@@ -1,14 +1,14 @@
 import React from 'react';
 
-const TemperatureWarning = ({ children, className = '', showWarning }) => {
-  const warningStyle = showWarning ?
+const TemperatureWarning = ({ children, className = '', style = {}, isVisible }) => {
+  const warningStyle = isVisible ?
     styles.isVisible :
     styles.isHidden;
 
   return (
     <div
-      style={{ ...styles.base, ...warningStyle }}
-      className={ `p1 center ${ className }` }>
+      style={{ ...styles.base, ...warningStyle, ...style }}
+      className={ `h6 p1 center ${ className }` }>
       { children }
     </div>
   );
@@ -18,6 +18,8 @@ const styles = {
   base: {
     transition: 'all 250ms',
     margin: '0 0 0.5rem',
+    fontWeight: '100',
+    textTransform: 'uppercase',
   },
   isVisible: {
     visibility: 'visible',
