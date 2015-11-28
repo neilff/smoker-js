@@ -9,14 +9,14 @@ function getRandomInt(min, max) {
 export default function deviceMock(io) {
   console.log('Simulating Photon device...');
 
-  var mockStateA = getRandomInt(285, 315);
+  var mockStateA = getRandomInt(245, 300);
   var mockStateB = getRandomInt(285, 315);
-  var mockStateC = getRandomInt(285, 315);
+  var mockStateC = getRandomInt(255, 305);
 
   setInterval(function() {
-    mockStateA += Math.random() / getRandomInt(50, 100);
-    mockStateB += Math.random() / getRandomInt(50, 100);
-    mockStateC += Math.random() / getRandomInt(50, 100);
+    mockStateA += Math.random() / getRandomInt(2, 5);
+    mockStateB += Math.random() / getRandomInt(2, 5);
+    mockStateC += Math.random() / getRandomInt(2, 5);
 
     io.sockets.emit('message', {
       type: ON_TEMP_UPDATE,

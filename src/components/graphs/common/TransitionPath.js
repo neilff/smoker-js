@@ -2,78 +2,72 @@ import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { List } from 'immutable';
 import d3 from 'd3';
-
-const calcX = (width, length) => {
-  return d3.scale.linear()
-    .domain([0, length - 1])
-    .range([0, width - 40]);
-};
-
-const calcY = (height, min, max) => {
-  return d3.scale.linear()
-    .domain([min, max])
-    .range([height - 40, 0]);
-};
-
-const line = (width, height, length, min, max) => {
-  return d3.svg.line()
-    .x((d, i) => calcX(width, length)(i))
-    .y((d) => calcY(height, min, max)(d));
-};
+import { range } from 'ramda';
 
 class TransitionPath extends Component {
   static propTypes = {
-    data: PropTypes.instanceOf(List).isRequired,
+    reading: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     style: PropTypes.object,
     width: PropTypes.number.isRequired,
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
+    resolution: PropTypes.number.isRequired,
   }
 
   defaultProps = {
     style: {},
-    min: 0,
-    max: 350,
   }
 
   componentDidMount() {
     const {
-      data,
       width,
       height,
-      min = 0,
-      max = 350,
+      min,
+      max,
+      resolution,
     } = this.props;
+
+    let data = List(range(0, resolution)).map(() => 0);
 
     const elem = findDOMNode(this);
     const length = data.size;
 
-    d3.select(elem)
-      .datum(data.toJS())
-      .attr('d', line(width, height, length, min, max));
-  }
+    const x = d3.scale.linear()
+      .domain([0, length - 1])
+      .range([0, width - 40]);
 
-  componentDidUpdate() {
-    const {
-      data,
-      width,
-      height,
-      min = 0,
-      max = 350,
-    } = this.props;
+    const y = d3.scale.linear()
+      .domain([min, max])
+      .range([height - 40, 0]);
 
-    const elem = findDOMNode(this);
-    const length = data.size;
+    const line = d3.svg.line()
+      .x((d, i) => x(i))
+      .y((d) => y(d));
 
     d3.select(elem)
-      .attr('d', line(width, height, length, min, max))
-      .attr('transform', null)
       .datum(data.toJS())
-      .transition()
-        .duration(500)
-        .ease('linear')
-        .attr('transform', 'translate(' + calcX(width, length)(-1) + ',0)');
+      .attr('d', line);
+
+    const tick = () => {
+      const { reading } = this.props;
+
+      data = data.push(reading);
+
+      d3.select(elem)
+        .datum(data.toJS())
+        .attr('d', line)
+        .attr('transform', null)
+        .transition()
+          .ease('linear')
+          .duration(1000)
+          .attr('transform', `translate(${ x(-1) })`)
+          .each('end', tick);
+
+      data = data.shift();
+    };
+
+    tick();
   }
 
   render() {

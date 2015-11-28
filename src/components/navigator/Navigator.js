@@ -6,12 +6,9 @@ const Navigator = () => {
   return (
     <div
       style={ styles.base }
-      className="fixed flex flex-center flex-column top-0 bottom-0">
+      className="fixed flex flex-center top-0 left-0 right-0 z4 p2">
       <NavigatorItem>
-        <i className="icon ion-speedometer" />
-      </NavigatorItem>
-      <NavigatorItem>
-        <i className="icon ion-android-options" />
+        Smoker.js
       </NavigatorItem>
     </div>
   );
@@ -20,7 +17,6 @@ const Navigator = () => {
 const styles = {
   base: {
     backgroundColor: '#424242',
-    width: '4rem',
   },
 };
 

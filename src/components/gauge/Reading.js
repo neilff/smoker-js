@@ -16,12 +16,12 @@ const styles = {
     margin: '1rem auto 2rem',
   },
   measurement: {
-    fontSize: '5vw',
+    fontSize: '4rem',
     fontWeight: '100',
-    top: '6.25vw',
+    top: '4.75rem',
   },
   sup: {
-    fontSize: '3vw',
+    fontSize: '2rem',
   },
 };
 

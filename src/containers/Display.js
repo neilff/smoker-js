@@ -27,7 +27,6 @@ const mapStateToProps = (state) => {
   return {
     readings: state.readings,
     settings: state.settings,
-    datasets: state.datasets,
   };
 };
 
@@ -42,7 +41,6 @@ const mapDispatchToProps = (dispatch) => {
 
 const Dashboard = (props) => {
   const {
-    datasets,
     readings,
     saveConversionType,
     saveThresholdHigh,
@@ -55,37 +53,44 @@ const Dashboard = (props) => {
 
   const gauges = readings.keySeq().map(idx => {
     const reading = convertReading(readings.get(idx));
-    const dataset = datasets.get(idx);
     const highThreshold = convertReading(settings.getIn(['gauges', idx, 'high'])).toFixed();
     const lowThreshold = convertReading(settings.getIn(['gauges', idx, 'low'])).toFixed();
     const title = settings.getIn(['gauges', idx, 'title']);
 
     return (
-      <Row>
-        <Column className="flex-end" key={ idx }>
-          <Gauge
-            onUpdateHighThreshold={ saveThresholdHigh(idx) }
-            highThreshold={ highThreshold }
-            onUpdateLowThreshold={ saveThresholdLow(idx) }
-            lowThreshold={ lowThreshold }
-            measurement={ settings.get('displayUnit') }
-            reading={ reading }
-            onUpdateTitle={ saveTitle(idx) }
-            title={ title } />
-        </Column>
-        <Column className="flex-auto">
-          <LineGraph height={ 240 } width={ 480 } data={ dataset } />
-        </Column>
-      </Row>
+      <Column className="flex-auto" key={ idx }>
+        <Gauge
+          onUpdateHighThreshold={ saveThresholdHigh(idx) }
+          highThreshold={ highThreshold }
+          onUpdateLowThreshold={ saveThresholdLow(idx) }
+          lowThreshold={ lowThreshold }
+          measurement={ settings.get('displayUnit') }
+          reading={ reading }
+          onUpdateTitle={ saveTitle(idx) }
+          title={ title } />
+      </Column>
     );
   });
 
   return (
     <div>
-      <Button className="m1" onClick={ () => saveConversionType('C') }>Celcius</Button>
-      <Button className="m1" onClick={ () => saveConversionType('F') }>Fahrenheit</Button>
+      <Row>
+        <Button className="m1" onClick={ () => saveConversionType('C') }>Celcius</Button>
+        <Button className="m1" onClick={ () => saveConversionType('F') }>Fahrenheit</Button>
+      </Row>
 
-      { gauges }
+      <Row>
+        { gauges }
+      </Row>
+
+      <Row>
+        <LineGraph
+          min={ 300 }
+          max={ 500 }
+          height={ 240 }
+          width={ 1024 }
+          readings={ readings } />
+      </Row>
     </div>
   );
 };

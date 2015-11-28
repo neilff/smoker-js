@@ -23,10 +23,10 @@ const Gauge = (props) => {
     <div>
       <div className="relative mb4 center">
         <PercentageDonut
-          value={ ((reading / highThreshold).toFixed(2) * 100) }
+          value={ ((reading - lowThreshold) / (highThreshold - lowThreshold)).toFixed(2) * 100 }
           width={ 300 }
           radius={ 10 }
-          primaryColor={ '#ff4136' }
+          primaryColor={ reading < lowThreshold ? '#0074d9' : '#ff4136' }
           secondaryColor={ '#212121' } />
 
         <Reading
