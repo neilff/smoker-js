@@ -32,7 +32,6 @@ const Gauge = (props) => {
         <Reading
           measurement={ measurement }
           reading={ reading }>
-
           <ContentEditable
             onChange={ onUpdateTitle }
             html={ title } />
@@ -42,7 +41,8 @@ const Gauge = (props) => {
           className="left-0"
           value={ lowThreshold }
           onSave={ onUpdateLowThreshold }
-          color="#0074d9">
+          color="#0074d9"
+          atThreshold={ reading < lowThreshold }>
           Low Temp
         </ThresholdSetting>
 
@@ -50,14 +50,14 @@ const Gauge = (props) => {
           className="right-0"
           value={ highThreshold }
           onSave={ onUpdateHighThreshold }
-          color="#ff4136">
+          color="#ff4136"
+          atThreshold={ reading > highThreshold }>
           High Temp
         </ThresholdSetting>
       </div>
 
       <Warning
         className="white bg-blue"
-
         isVisible={ reading < lowThreshold }>
         Low Warning
       </Warning>

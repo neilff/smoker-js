@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import Circle from '../common/Circle';
 import ThresholdInput from './ThresholdInput';
 
 const ThresholdSetting = (props) => {
   const {
+    atThreshold,
     children,
-    className = '',
-    color = '',
-    value,
+    className,
+    color,
     onSave,
+    value,
   } = props;
 
   return (
@@ -19,7 +20,8 @@ const ThresholdSetting = (props) => {
 
       <Circle
         width="0.5rem"
-        color={ color } />
+        color={ color }
+        filled={ atThreshold }/>
 
       <div
         style={ styles.title }
@@ -33,6 +35,21 @@ const ThresholdSetting = (props) => {
         value={ value } />
     </div>
   );
+};
+
+ThresholdSetting.displayName = 'ThresholdSetting';
+ThresholdSetting.propTypes = {
+  atThreshold: PropTypes.bool.isRequired,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  color: PropTypes.string,
+  filled: PropTypes.bool,
+  width: PropTypes.string,
+};
+ThresholdSetting.defaultProps = {
+  atThreshold: false,
+  className: '',
+  color: '',
 };
 
 const styles = {
