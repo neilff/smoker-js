@@ -11,7 +11,8 @@ const ContentWrapper = ({ children }) => {
 
 const styles = {
   base: {
-    marginTop: '4rem',
+    marginTop: '2rem',
+    marginBottom: '4rem',
     paddingLeft: '1rem',
     paddingRight: '1rem',
   },

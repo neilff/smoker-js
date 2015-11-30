@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const Button = ({ onClick, children, className = {} }) => {
+const Button = ({ onClick, children, className }) => {
   return (
     <button
       style={ styles.base }
-      className={ `btn btn-primary h6 ${ className }` } onClick={ onClick }>
+      className={ `btn ${ className }` } onClick={ onClick }>
       { children }
     </button>
   );
+};
+
+Button.displayName = 'Button';
+Button.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  onClick: PropTypes.func,
+};
+Button.defaultProps = {
+  onClick: () => {},
+  className: '',
 };
 
 const styles = {

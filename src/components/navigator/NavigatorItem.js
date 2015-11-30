@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const NavigatorItem = ({ children }) => {
+const NavigatorItem = ({ children, className }) => {
   return (
-    <div style={ styles.base } className="flex flex-center icon white">
+    <div
+      style={ styles.base }
+      className={ `icon white ${ className }` }>
       { children }
     </div>
   );
 };
 
+NavigatorItem.displayName = 'NavigatorItem';
+NavigatorItem.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+};
+NavigatorItem.defaultProps = {
+  className: '',
+};
+
 const styles = {
   base: {
-    fontSize: '1.25rem',
-    fontWeight: '100',
     justifyContent: 'center',
     textDecoration: 'none',
-    textTransform: 'uppercase',
     transition: 'all 150ms',
   },
 };

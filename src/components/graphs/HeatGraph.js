@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { Map } from 'immutable';
 import { convertFahrenheitToC } from '../../utils/conversion';
 
-import TransitionPath from './common/TransitionPath';
+import Path from './common/Path';
 
 class HeatGraph extends Component {
   static propTypes = {
@@ -11,7 +11,6 @@ class HeatGraph extends Component {
     max: PropTypes.number,
     min: PropTypes.number,
     readings: PropTypes.instanceOf(Map).isRequired,
-    resolution: PropTypes.number,
     width: PropTypes.number,
   }
 
@@ -19,7 +18,6 @@ class HeatGraph extends Component {
     height: 480,
     max: 350,
     min: 0,
-    resolution: 300,
     width: 960,
   }
 
@@ -58,7 +56,6 @@ class HeatGraph extends Component {
       width,
       height,
       readings,
-      resolution,
     } = this.props;
 
     return (
@@ -75,10 +72,9 @@ class HeatGraph extends Component {
             {
               readings.map((i, idx) => {
                 return (
-                  <TransitionPath
+                  <Path
                     key={ idx }
-                    resolution={ resolution }
-                    x={ this.x.bind(this) }
+                    width={ width - 120 }
                     y={ this.y.bind(this) }
                     reading={ i } />
                 );
@@ -89,10 +85,6 @@ class HeatGraph extends Component {
       </svg>
     );
   }
-
-  x = d3.scale.linear()
-        .domain([0, this.props.resolution - 1])
-        .range([0, this.props.width - 120])
 
   y = d3.scale.linear()
         .domain([this.props.min, this.props.max])

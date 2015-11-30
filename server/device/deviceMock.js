@@ -14,13 +14,13 @@ export default function deviceMock(io) {
   var mockStateC = getRandomInt(255, 305);
 
   setInterval(function() {
-    // mockStateA = getRandomInt(325, 455);
-    // mockStateB = getRandomInt(325, 455); // += Math.random() / getRandomInt(2, 5);
-    // mockStateC = getRandomInt(325, 455); // += Math.random() / getRandomInt(2, 5);
+    mockStateA += Math.random() * getRandomInt(1, 10);
+    mockStateB += Math.random() * getRandomInt(1, 10);
+    mockStateC += Math.random() * getRandomInt(1, 10);
 
-    mockStateA += Math.random() / getRandomInt(2, 5);
-    mockStateB += Math.random() / getRandomInt(2, 5);
-    mockStateC += Math.random() / getRandomInt(2, 5);
+    // mockStateA += Math.random() / getRandomInt(2, 5);
+    // mockStateB += Math.random() / getRandomInt(2, 5);
+    // mockStateC += Math.random() / getRandomInt(2, 5);
 
     io.sockets.emit('message', {
       type: ON_TEMP_UPDATE,

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  setConversionType,
   setThreshold,
   setTitle,
 } from '../reducers/settings';
@@ -21,7 +20,7 @@ import Column from '../components/common/Column';
 import Row from '../components/common/Row';
 import Gauge from '../components/gauge/Gauge';
 import HeatGraph from '../components/graphs/HeatGraph';
-import Button from '../components/common/Button';
+import Break from '../components/common/Break';
 
 const mapStateToProps = (state) => {
   return {
@@ -32,7 +31,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveConversionType: (type) => dispatch(setConversionType(type)),
     saveThresholdHigh: (id) => (value) => dispatch(setThreshold('high', id, value)),
     saveThresholdLow: (id) => (value) => dispatch(setThreshold('low', id, value)),
     saveTitle: (id) => (value) => dispatch(setTitle(id, value)),
@@ -42,7 +40,6 @@ const mapDispatchToProps = (dispatch) => {
 const Dashboard = (props) => {
   const {
     readings,
-    saveConversionType,
     saveThresholdHigh,
     saveThresholdLow,
     settings,
@@ -76,8 +73,7 @@ const Dashboard = (props) => {
   return (
     <div>
       <Row>
-        <Button className="m1" onClick={ () => saveConversionType('C') }>Celcius</Button>
-        <Button className="m1" onClick={ () => saveConversionType('F') }>Fahrenheit</Button>
+        <Break title="Temperature Gauges"/>
       </Row>
 
       <Row>
@@ -85,10 +81,14 @@ const Dashboard = (props) => {
       </Row>
 
       <Row>
+        <Break title="Heat Graph"/>
+      </Row>
+
+      <Row>
         <HeatGraph
           min={ 0 }
           max={ 500 }
-          height={ 240 }
+          height={ 480 }
           width={ 1024 }
           readings={ convertedReadings } />
       </Row>

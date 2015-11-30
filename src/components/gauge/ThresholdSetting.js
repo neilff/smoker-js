@@ -38,7 +38,7 @@ const ThresholdSetting = (props) => {
 const styles = {
   base: {
     width: '100px',
-    bottom: '-45px',
+    bottom: '-52.5',
   },
   title: {
     fontWeight: '100',
