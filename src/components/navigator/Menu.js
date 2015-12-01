@@ -36,7 +36,6 @@ const Menu = ({ isVisible, saveConversionType, displayUnit }) => {
             );
           })
         }
-
       </ul>
     </Dropdown>
   );

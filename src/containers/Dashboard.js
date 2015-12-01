@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Map } from 'immutable';
 
 import {
   setThreshold,
   setTitle,
-} from '../reducers/settings';
+  toggleMenuVisibility,
+} from '../reducers/gauges';
 
 import {
   convertKelvinToF,
@@ -26,6 +28,7 @@ const mapStateToProps = (state) => {
   return {
     readings: state.readings,
     settings: state.settings,
+    gauges: state.gauges,
   };
 };
 
@@ -34,26 +37,30 @@ const mapDispatchToProps = (dispatch) => {
     saveThresholdHigh: (id) => (value) => dispatch(setThreshold('high', id, value)),
     saveThresholdLow: (id) => (value) => dispatch(setThreshold('low', id, value)),
     saveTitle: (id) => (value) => dispatch(setTitle(id, value)),
+    toggleMenu: (id) => () => dispatch(toggleMenuVisibility(id)),
   };
 };
 
 const Dashboard = (props) => {
   const {
+    gauges,
     readings,
     saveThresholdHigh,
     saveThresholdLow,
-    settings,
     saveTitle,
+    settings,
+    toggleMenu,
   } = props;
 
   const convertReading = conversionTable[settings.get('displayUnit')];
   const convertedReadings = readings.map(i => conversionTable.F(i));
 
-  const gauges = readings.keySeq().map(idx => {
+  const columns = readings.keySeq().map(idx => {
     const reading = convertReading(readings.get(idx, 0));
-    const highThreshold = convertReading(settings.getIn(['gauges', idx, 'high'])).toFixed();
-    const lowThreshold = convertReading(settings.getIn(['gauges', idx, 'low'])).toFixed();
-    const title = settings.getIn(['gauges', idx, 'title']);
+    const highThreshold = convertReading(gauges.getIn([idx, 'high'])).toFixed();
+    const lowThreshold = convertReading(gauges.getIn([idx, 'low'])).toFixed();
+    const title = gauges.getIn([idx, 'title']);
+    const menuVisible = gauges.getIn([idx, 'menuVisible']);
 
     return (
       <Column className="flex-auto" key={ idx }>
@@ -65,6 +72,8 @@ const Dashboard = (props) => {
           measurement={ settings.get('displayUnit') }
           reading={ reading }
           onUpdateTitle={ saveTitle(idx) }
+          toggleMenu={ toggleMenu(idx) }
+          menuVisible={ menuVisible }
           title={ title } />
       </Column>
     );
@@ -77,7 +86,7 @@ const Dashboard = (props) => {
       </Row>
 
       <Row>
-        { gauges }
+        { columns }
       </Row>
 
       <Row>
@@ -95,6 +104,18 @@ const Dashboard = (props) => {
     </div>
   );
 };
+
+Dashboard.displayName = 'Dashboard';
+Dashboard.propTypes = {
+  gauges: PropTypes.instanceOf(Map).isRequired,
+  readings: PropTypes.instanceOf(Map).isRequired,
+  saveThresholdHigh: PropTypes.func.isRequired,
+  saveThresholdLow: PropTypes.func.isRequired,
+  saveTitle: PropTypes.func.isRequired,
+  settings: PropTypes.instanceOf(Map).isRequired,
+  toggleMenu: PropTypes.func.isRequired,
+};
+Dashboard.defaultProps = {};
 
 export default connect(
   mapStateToProps,

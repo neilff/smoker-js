@@ -30,10 +30,21 @@ const logger = createLogger({
 
 const storageConfig = {
   key: 'smokerjs',
-  serialize: (state) => JSON.stringify(state.settings.toJS()),
-  deserialize: (state) => ({
-    settings: Immutable.fromJS(JSON.parse(state)),
-  }),
+  serialize: (state) => {
+    return state && state.settings && state.gauges ?
+      JSON.stringify({
+        settings: state.settings.toJS(),
+        gauges: state.gauges.toJS(),
+      }) : {};
+  },
+  deserialize: (state) => {
+    const store = JSON.parse(state);
+
+    return {
+      settings: Immutable.fromJS(store.settings),
+      gauges: Immutable.fromJS(store.gauges),
+    };
+  },
 };
 
 export default function configureStore(routes, history, initialState = {}) {
@@ -47,7 +58,7 @@ export default function configureStore(routes, history, initialState = {}) {
       thunkMiddleware,
       logger,
     ),
-    persistState('settings', storageConfig),
+    persistState(['settings', 'gauges'], storageConfig),
   )(createStore)(rootReducer, initialState);
 
   if (module.hot) {

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import ContentEditable from '../common/ContentEditable';
 
 import ThresholdSetting from './ThresholdSetting';
 import Reading from './Reading';
 import Warning from './Warning';
+import GaugeMenu from './GaugeMenu';
 import PercentageDonut from '../graphs/PercentageDonut';
 
 const Gauge = (props) => {
@@ -12,16 +13,22 @@ const Gauge = (props) => {
     highThreshold,
     lowThreshold,
     measurement,
+    menuVisible,
     onUpdateHighThreshold,
     onUpdateLowThreshold,
     onUpdateTitle,
     reading,
     title,
+    toggleMenu,
   } = props;
 
   return (
     <div>
       <div className="relative mb4 center">
+        <GaugeMenu
+          toggleMenu={ toggleMenu }
+          isVisible={ menuVisible } />
+
         <PercentageDonut
           value={ ((reading - lowThreshold) / (highThreshold - lowThreshold)).toFixed(2) * 100 }
           width={ 300 }
@@ -70,5 +77,20 @@ const Gauge = (props) => {
     </div>
   );
 };
+
+Gauge.displayName = 'Gauge';
+Gauge.propTypes = {
+  highThreshold: PropTypes.string.isRequired,
+  lowThreshold: PropTypes.string.isRequired,
+  measurement: PropTypes.string.isRequired,
+  menuVisible: PropTypes.bool.isRequired,
+  onUpdateHighThreshold: PropTypes.func.isRequired,
+  onUpdateLowThreshold: PropTypes.func.isRequired,
+  onUpdateTitle: PropTypes.func.isRequired,
+  reading: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
+};
+Gauge.defaultProps = {};
 
 export default Gauge;
