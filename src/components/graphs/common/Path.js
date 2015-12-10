@@ -68,7 +68,6 @@ class Path extends Component {
 const styles = {
   base: {
     fill: 'none',
-    stroke: 'red',
     strokeWidth: '1px',
   },
 };

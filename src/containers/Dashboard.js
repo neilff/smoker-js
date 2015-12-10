@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
 import {
+  setColor,
   setThreshold,
   setTitle,
   toggleMenuVisibility,
@@ -34,6 +35,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    saveColor: (id) => (value) => dispatch(setColor(id, value)),
     saveThresholdHigh: (id) => (value) => dispatch(setThreshold('high', id, value)),
     saveThresholdLow: (id) => (value) => dispatch(setThreshold('low', id, value)),
     saveTitle: (id) => (value) => dispatch(setTitle(id, value)),
@@ -45,6 +47,7 @@ const Dashboard = (props) => {
   const {
     gauges,
     readings,
+    saveColor,
     saveThresholdHigh,
     saveThresholdLow,
     saveTitle,
@@ -54,17 +57,21 @@ const Dashboard = (props) => {
 
   const convertReading = conversionTable[settings.get('displayUnit')];
   const convertedReadings = readings.map(i => conversionTable.F(i));
+  const heatGraphColors = gauges.map(i => i.get('color'));
 
   const columns = readings.keySeq().map(idx => {
     const reading = convertReading(readings.get(idx, 0));
     const highThreshold = convertReading(gauges.getIn([idx, 'high'])).toFixed();
     const lowThreshold = convertReading(gauges.getIn([idx, 'low'])).toFixed();
+    const gaugeColor = gauges.getIn([idx, 'color']);
     const title = gauges.getIn([idx, 'title']);
     const menuVisible = gauges.getIn([idx, 'menuVisible']);
 
     return (
       <Column className="flex-auto" key={ idx }>
         <Gauge
+          color={ gaugeColor }
+          onColorChange={ saveColor(idx) }
           onUpdateHighThreshold={ saveThresholdHigh(idx) }
           highThreshold={ highThreshold }
           onUpdateLowThreshold={ saveThresholdLow(idx) }
@@ -99,6 +106,7 @@ const Dashboard = (props) => {
           max={ 500 }
           height={ 480 }
           width={ 1024 }
+          colors={ heatGraphColors }
           readings={ convertedReadings } />
       </Row>
     </div>

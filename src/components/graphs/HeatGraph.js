@@ -12,6 +12,7 @@ class HeatGraph extends Component {
     min: PropTypes.number,
     readings: PropTypes.instanceOf(Map).isRequired,
     width: PropTypes.number,
+    colors: PropTypes.instanceOf(Map).isRequired,
   }
 
   static defaultProps = {
@@ -56,6 +57,7 @@ class HeatGraph extends Component {
       width,
       height,
       readings,
+      colors,
     } = this.props;
 
     return (
@@ -73,6 +75,9 @@ class HeatGraph extends Component {
               readings.map((i, idx) => {
                 return (
                   <Path
+                    style={{
+                      stroke: colors.get(idx),
+                    }}
                     key={ idx }
                     width={ width - 120 }
                     y={ this.y.bind(this) }

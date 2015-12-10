@@ -5,6 +5,7 @@
   "engines": {
     "node": "4.x"
   },
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf static/ dist/",

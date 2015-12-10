@@ -3,20 +3,9 @@ import React, { PropTypes } from 'react';
 import Dropdown from '../common/Dropdown';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
+import ContentEditable from '../common/ContentEditable';
 
-const GaugeMenu = ({ isVisible, toggleMenu }) => {
-  const menuOptions = [
-    {
-      title: 'Start Timer',
-    },
-    {
-      title: 'Select Graph Color',
-    },
-    {
-      title: 'Disable Gauge',
-    },
-  ];
-
+const GaugeMenu = ({ isVisible, toggleMenu, color, onColorChange }) => {
   return (
     <div className="absolute top-0 right-0">
       <Button
@@ -31,20 +20,21 @@ const GaugeMenu = ({ isVisible, toggleMenu }) => {
           type="ion-android-more-vertical" />
       </Button>
       <Dropdown isVisible={ isVisible } style={ styles.dropdown }>
-        Configure Gauge
-        <ul className="list-reset">
-          {
-            menuOptions.map((i, idx) => {
-              return (
-                <li
-                  key={ idx }
-                  style={ styles.listItem }
-                  className="ml1 mr1 mt1">
-                  { i.title }
-                </li>
-              );
-            })
-          }
+        <h5>Configure Gauge</h5>
+        <ul className="list-reset mt2">
+          <li style={ styles.listItem } className="ml1 mr1 mt1">
+            Start Timer
+          </li>
+          <li style={ styles.listItem } className="ml1 mr1 mt1">
+            Disable Gauge
+          </li>
+        </ul>
+
+        <h5>Color</h5>
+        <ul className="list-reset mt2">
+          <ContentEditable
+            onChange={ onColorChange }
+            html={ color } />
         </ul>
       </Dropdown>
     </div>
@@ -55,6 +45,7 @@ GaugeMenu.displayName = 'GaugeMenu';
 GaugeMenu.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   toggleMenu: PropTypes.func.isRequired,
+  onColorChange: PropTypes.func.isRequired,
 };
 GaugeMenu.defaultProps = {};
 
@@ -63,6 +54,7 @@ const styles = {
     top: '2rem',
     right: '0',
     width: '240px',
+    fontSize: '0.85rem',
   },
   icon: {
     width: '2rem',
@@ -73,7 +65,7 @@ const styles = {
     right: '-1rem',
   },
   listItem: {
-    paddingLeft: '1rem',
+    paddingLeft: '0.5rem',
   },
 };
 

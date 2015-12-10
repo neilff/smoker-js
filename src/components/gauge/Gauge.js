@@ -10,10 +10,12 @@ import PercentageDonut from '../graphs/PercentageDonut';
 
 const Gauge = (props) => {
   const {
+    color,
     highThreshold,
     lowThreshold,
     measurement,
     menuVisible,
+    onColorChange,
     onUpdateHighThreshold,
     onUpdateLowThreshold,
     onUpdateTitle,
@@ -26,6 +28,8 @@ const Gauge = (props) => {
     <div>
       <div className="relative mb4 center">
         <GaugeMenu
+          color={ color }
+          onColorChange={ onColorChange }
           toggleMenu={ toggleMenu }
           isVisible={ menuVisible } />
 
@@ -80,10 +84,12 @@ const Gauge = (props) => {
 
 Gauge.displayName = 'Gauge';
 Gauge.propTypes = {
+  color: PropTypes.string.isRequired,
   highThreshold: PropTypes.string.isRequired,
   lowThreshold: PropTypes.string.isRequired,
   measurement: PropTypes.string.isRequired,
   menuVisible: PropTypes.bool.isRequired,
+  onColorChange: PropTypes.func.isRequired,
   onUpdateHighThreshold: PropTypes.func.isRequired,
   onUpdateLowThreshold: PropTypes.func.isRequired,
   onUpdateTitle: PropTypes.func.isRequired,

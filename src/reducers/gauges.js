@@ -12,9 +12,10 @@ const convertToK = {
   C: convertCelciusToK,
 };
 
-export const SET_THRESHOLD_SETTING = '@@smokerJS/SET_THRESHOLD_SETTING';
-export const SET_GAUGE_TITTLE = '@@smokerJS/SET_GAUGE_TITTLE';
+export const SET_GAUGE_COLOR = '@@smokerJS/SET_GAUGE_COLOR';
+export const SET_GAUGE_TITLE = '@@smokerJS/SET_GAUGE_TITLE';
 export const SET_MENU_VISIBILITY = '@@smokerJS/SET_MENU_VISIBILITY';
+export const SET_THRESHOLD_SETTING = '@@smokerJS/SET_THRESHOLD_SETTING';
 
 const INITIAL_STATE = fromJS({
   A: {
@@ -22,18 +23,21 @@ const INITIAL_STATE = fromJS({
     low: 295,
     title: 'Gauge A',
     menuVisible: false,
+    color: 'red',
   },
   B: {
     high: 305,
     low: 295,
     title: 'Gauge B',
     menuVisible: false,
+    color: 'green',
   },
   C: {
     high: 305,
     low: 295,
     title: 'Gauge C',
     menuVisible: false,
+    color: 'blue',
   },
 });
 
@@ -42,7 +46,10 @@ export default function settingsReducer(state = INITIAL_STATE, { type, payload }
   case SET_THRESHOLD_SETTING:
     return state.setIn([...payload.path], payload.value);
 
-  case SET_GAUGE_TITTLE:
+  case SET_GAUGE_COLOR:
+    return state.setIn([payload.id, 'color'], payload.value);
+
+  case SET_GAUGE_TITLE:
     return state.setIn([payload.id, 'title'], payload.value);
 
   case SET_MENU_VISIBILITY:
@@ -68,9 +75,19 @@ export function toggleMenuVisibility(id) {
   };
 }
 
+export function setColor(id, value) {
+  return {
+    type: SET_GAUGE_COLOR,
+    payload: {
+      id,
+      value,
+    },
+  };
+}
+
 export function setTitle(id, value) {
   return {
-    type: SET_GAUGE_TITTLE,
+    type: SET_GAUGE_TITLE,
     payload: {
       id,
       value,
