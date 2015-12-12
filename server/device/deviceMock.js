@@ -1,6 +1,5 @@
 import { convertVoltToK } from '../utils';
-import { ON_TEMP_UPDATE } from '../../shared';
-import { TIME_FREQ } from '../config';
+import { ON_TEMP_UPDATE, SOCKET_UPDATE_TIME } from '../../shared';
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -14,13 +13,13 @@ export default function deviceMock(io) {
   var mockStateC = getRandomInt(255, 305);
 
   setInterval(function() {
-    // mockStateA += Math.random() * getRandomInt(1, 10);
-    // mockStateB += Math.random() * getRandomInt(1, 10);
-    // mockStateC += Math.random() * getRandomInt(1, 10);
+    mockStateA += Math.random() * getRandomInt(1, 4);
+    mockStateB += Math.random() * getRandomInt(1, 4);
+    mockStateC += Math.random() * getRandomInt(1, 4);
 
-    mockStateA += Math.random() / getRandomInt(2, 5);
-    mockStateB += Math.random() / getRandomInt(2, 5);
-    mockStateC += Math.random() / getRandomInt(2, 5);
+    // mockStateA += Math.random() / getRandomInt(2, 5);
+    // mockStateB += Math.random() / getRandomInt(2, 5);
+    // mockStateC += Math.random() / getRandomInt(2, 5);
 
     io.sockets.emit('message', {
       type: ON_TEMP_UPDATE,
@@ -30,5 +29,5 @@ export default function deviceMock(io) {
         C: mockStateC,
       }
     });
-  }, TIME_FREQ);
+  }, SOCKET_UPDATE_TIME);
 }

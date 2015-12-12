@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import Immutable from 'immutable';
 
 import { ON_TEMP_UPDATE } from '../../shared';
+import { HIDE_MENUS } from '../reducers/ui';
 
 import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
@@ -25,7 +26,10 @@ const logger = createLogger({
     }
     return newState;
   },
-  predicate: (getState, action) => action.type !== ON_TEMP_UPDATE,
+  predicate: (getState, action) => {
+    return action.type !== ON_TEMP_UPDATE &&
+           action.type !== HIDE_MENUS;
+  },
 });
 
 const storageConfig = {

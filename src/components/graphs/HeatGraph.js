@@ -1,31 +1,34 @@
 import React, { PropTypes, Component } from 'react';
-import { findDOMNode } from 'react-dom';
-import { Map } from 'immutable';
+import { Map, List, is } from 'immutable';
 import { convertFahrenheitToC } from '../../utils/conversion';
 
 import Path from './common/Path';
 
 class HeatGraph extends Component {
   static propTypes = {
+    colors: PropTypes.instanceOf(Map).isRequired,
+    defaultTickTime: PropTypes.number.isRequired,
     height: PropTypes.number,
     max: PropTypes.number,
     min: PropTypes.number,
     readings: PropTypes.instanceOf(Map).isRequired,
+    timestamps: PropTypes.instanceOf(List).isRequired,
     width: PropTypes.number,
-    colors: PropTypes.instanceOf(Map).isRequired,
   }
 
   static defaultProps = {
-    height: 480,
+    height: 500,
     max: 350,
     min: 0,
     width: 960,
   }
 
   componentDidMount() {
-    const { width } = this.props;
+    const { xAxisElem, yAxisRightElem, yAxisLeftElem } = this.refs;
 
-    const elem = findDOMNode(this);
+    const xAxis = d3.svg.axis()
+      .scale(this.x)
+      .orient('bottom');
 
     const yAxisLeft = d3.svg.axis()
       .scale(this.y)
@@ -39,25 +42,40 @@ class HeatGraph extends Component {
       .tickFormat(f => `${ convertFahrenheitToC(f).toFixed() }°C`)
       .orient('right');
 
-    d3.select(elem)
-      .append('g')
-      .attr('class', 'y axis')
-      .attr('transform', `translate(50, 20)`)
+    d3.select(yAxisLeftElem)
       .call(yAxisLeft);
 
-    d3.select(elem)
-      .append('g')
-      .attr('class', 'y axis')
-      .attr('transform', `translate(${ width - 50 }, 20)`)
+    d3.select(yAxisRightElem)
       .call(yAxisRight);
+
+    d3.select(xAxisElem)
+      .call(xAxis);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { xAxisElem } = this.refs;
+    const { timestamps } = this.props;
+
+    // // Update the xAxis as time updates
+    if (!is(nextProps.timestamps, timestamps)) {
+      const xAxis = d3.svg.axis()
+        .scale(this.x)
+        .orient('bottom');
+
+      console.log(this.x(0), this.props.timestamps.first());
+
+      d3.select(xAxisElem)
+        .call(xAxis);
+    }
   }
 
   render() {
     const {
-      width,
+      colors,
+      defaultTickTime,
       height,
       readings,
-      colors,
+      width,
     } = this.props;
 
     return (
@@ -69,7 +87,17 @@ class HeatGraph extends Component {
               height={ height }></rect>
           </clipPath>
         </defs>
-        <g transform="translate(60, 20)">
+        <g
+          className="y axis"
+          ref="yAxisLeftElem"
+          transform={ `translate(50, 10)` }>
+        </g>
+        <g
+          className="y axis"
+          ref="yAxisRightElem"
+          transform={ `translate(${ width - 50 }, 10)` }>
+        </g>
+        <g transform="translate(60, 10)">
           <g clipPath="url(#clip)">
             {
               readings.map((i, idx) => {
@@ -81,15 +109,25 @@ class HeatGraph extends Component {
                     key={ idx }
                     width={ width - 120 }
                     y={ this.y.bind(this) }
-                    reading={ i } />
+                    reading={ i }
+                    defaultTickTime={ defaultTickTime } />
                 );
               })
             }
           </g>
         </g>
+        <g
+          className="x axis"
+          ref="xAxisElem"
+          transform={ `translate(60, ${ height - 20 })` }>
+        </g>
       </svg>
     );
   }
+
+  x = d3.time.scale()
+        .domain([this.props.timestamps.first(), this.props.timestamps.last()])
+        .range([0, this.props.width - 120])
 
   y = d3.scale.linear()
         .domain([this.props.min, this.props.max])

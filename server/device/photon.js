@@ -1,8 +1,7 @@
 import five from 'johnny-five';
 import Particle from 'particle-io';
 import invariant from 'invariant';
-import { ON_TEMP_UPDATE } from '../../shared';
-import { TIME_FREQ } from '../config';
+import { ON_TEMP_UPDATE, SOCKET_UPDATE_TIME } from '../../shared';
 import { convertVoltToK } from '../utils';
 
 const PARTICLE_TOKEN = process.env.PARTICLE_TOKEN;
@@ -33,7 +32,7 @@ export default function connectPhoton(io) {
 
     var sensor = new five.Sensor({
       pin: 'A1',
-      freq: TIME_FREQ
+      freq: SOCKET_UPDATE_TIME
     });
 
     sensor.on('change', function() {

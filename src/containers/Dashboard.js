@@ -9,6 +9,8 @@ import {
   toggleMenuVisibility,
 } from '../reducers/gauges';
 
+import { setRecordingState, resetRecordingState, onRecordTick } from '../reducers/record';
+
 import {
   convertKelvinToF,
   convertKelvinToC,
@@ -19,26 +21,33 @@ const conversionTable = {
   F: convertKelvinToF,
 };
 
+import Break from '../components/common/Break';
 import Column from '../components/common/Column';
-import Row from '../components/common/Row';
 import Gauge from '../components/gauge/Gauge';
 import HeatGraph from '../components/graphs/HeatGraph';
-import Break from '../components/common/Break';
+import Legend from '../components/graphs/common/Legend';
+import Recorder from '../components/recording/Recorder';
+import Row from '../components/common/Row';
 
 const mapStateToProps = (state) => {
   return {
-    readings: state.readings,
-    settings: state.settings,
     gauges: state.gauges,
+    readings: state.readings,
+    record: state.record,
+    settings: state.settings,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    recordTick: (payload) => dispatch(onRecordTick(payload)),
+    resetRecording: () => dispatch(resetRecordingState()),
     saveColor: (id) => (value) => dispatch(setColor(id, value)),
     saveThresholdHigh: (id) => (value) => dispatch(setThreshold('high', id, value)),
     saveThresholdLow: (id) => (value) => dispatch(setThreshold('low', id, value)),
     saveTitle: (id) => (value) => dispatch(setTitle(id, value)),
+    startRecording: () => dispatch(setRecordingState(true)),
+    stopRecording: () => dispatch(setRecordingState(false)),
     toggleMenu: (id) => () => dispatch(toggleMenuVisibility(id)),
   };
 };
@@ -46,17 +55,23 @@ const mapDispatchToProps = (dispatch) => {
 const Dashboard = (props) => {
   const {
     gauges,
+    recordTick,
     readings,
+    record,
+    resetRecording,
     saveColor,
     saveThresholdHigh,
     saveThresholdLow,
     saveTitle,
     settings,
+    startRecording,
+    stopRecording,
     toggleMenu,
   } = props;
 
   const convertReading = conversionTable[settings.get('displayUnit')];
   const convertedReadings = readings.map(i => conversionTable.F(i));
+  const convertedHistory = record.get('history');
   const heatGraphColors = gauges.map(i => i.get('color'));
 
   const columns = readings.keySeq().map(idx => {
@@ -107,7 +122,22 @@ const Dashboard = (props) => {
           height={ 480 }
           width={ 1024 }
           colors={ heatGraphColors }
-          readings={ convertedReadings } />
+          readings={ convertedHistory }
+          defaultTickTime={ settings.get('defaultTickTime') }
+          timestamps={ record.get('timestamps') } />
+      </Row>
+
+      <Row>
+        <Recorder
+          gauges={ gauges }
+          recordTick={ recordTick }
+          readings={ convertedReadings }
+          isRecording={ record.get('isRecording') }
+          startRecording={ startRecording }
+          stopRecording={ stopRecording }
+          resetRecording={ resetRecording }
+          defaultTickTime={ settings.get('defaultTickTime') } />
+        <Legend gauges={ gauges } />
       </Row>
     </div>
   );

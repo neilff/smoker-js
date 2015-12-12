@@ -46,3 +46,24 @@ h6 {
     stroke: #ff4136;
   }
 }
+
+.x.axis {
+  line {
+    stroke: none;
+  }
+
+  text {
+    fill: #ddd;
+    font-weight: 100;
+    font-size: 0.75rem;
+  }
+
+  .minor {
+    stroke-opacity: .5;
+  }
+
+  path {
+    fill: none;
+    stroke: #424242;
+  }
+}
