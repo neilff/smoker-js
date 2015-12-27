@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
+import Radium from 'radium';
 
-const Button = ({ onClick, children, style, className }) => {
+const Button = ({ onClick, children, style, className = '' }) => {
   return (
     <button
       style={{
@@ -20,17 +21,19 @@ Button.propTypes = {
   style: PropTypes.object,
   onClick: PropTypes.func,
 };
-Button.defaultProps = {
-  onClick: () => {},
-  className: '',
-  style: {},
-};
 
 const styles = {
   base: {
     fontWeight: '100',
     textTransform: 'uppercase',
+    ':active': {
+      outline: 'none',
+    },
+    ':focus': {
+      outline: 'none',
+      boxShadow: 'none',
+    },
   },
 };
 
-export default Button;
+export default Radium(Button);

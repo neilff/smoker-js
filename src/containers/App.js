@@ -9,8 +9,9 @@ import Navigator from '../components/navigator/Navigator';
 
 const mapStateToProps = (state) => {
   return {
-    profileVisible: state.ui.get('profileDropdownVisible'),
     displayUnit: state.settings.get('displayUnit'),
+    isRecording: state.record.get('isRecording'),
+    profileVisible: state.ui.get('profileDropdownVisible'),
   };
 };
 
@@ -29,10 +30,11 @@ const App = (props) => {
   const {
     children,
     closeMenus,
+    displayUnit,
+    isRecording,
     profileVisible,
     saveConversionType,
     toggleMenu,
-    displayUnit,
   } = props;
 
   return (
@@ -43,7 +45,8 @@ const App = (props) => {
         settings={{
           saveConversionType,
           displayUnit,
-        }} />
+        }}
+        isRecording={ isRecording } />
       <ContentWrapper>
         { children }
       </ContentWrapper>
@@ -55,6 +58,7 @@ App.displayName = 'App';
 App.propTypes = {
   children: PropTypes.node.isRequired,
   closeMenus: PropTypes.func.isRequired,
+  isRecording: PropTypes.bool.isRequired,
   profileVisible: PropTypes.bool.isRequired,
   saveConversionType: PropTypes.func.isRequired,
   toggleMenu: PropTypes.func.isRequired,

@@ -40,10 +40,10 @@ class Recorder extends Component {
       <div className="flex-auto">
         {
           isRecording ?
-            <Button onClick={ stopRecording }>Pause</Button> :
-            <Button onClick={ startRecording }>Start</Button>
+            <Button onClick={ stopRecording } className="h6">Pause</Button> :
+            <Button onClick={ startRecording } className="h6">Start</Button>
         }
-        <Button onClick={ resetRecording }>Reset</Button>
+        <Button onClick={ resetRecording } className="h6">Reset</Button>
       </div>
     );
   }

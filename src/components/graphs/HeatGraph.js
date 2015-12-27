@@ -26,9 +26,11 @@ class HeatGraph extends Component {
   componentDidMount() {
     const { xAxisElem, yAxisRightElem, yAxisLeftElem } = this.refs;
 
+    // Draw the empty xAxis line
     const xAxis = d3.svg.axis()
-      .scale(this.x)
-      .orient('bottom');
+      .scale(this.getX())
+      .orient('bottom')
+      .ticks(5);
 
     const yAxisLeft = d3.svg.axis()
       .scale(this.y)
@@ -59,14 +61,22 @@ class HeatGraph extends Component {
     // // Update the xAxis as time updates
     if (!is(nextProps.timestamps, timestamps)) {
       const xAxis = d3.svg.axis()
-        .scale(this.x)
-        .orient('bottom');
+        .scale(this.getX())
+        .orient('bottom')
+        .ticks(5)
+        .tickFormat(d3.time.format('%H:%M'));
 
-      console.log(this.x(0), this.props.timestamps.first());
+      console.log(this.getX()(0), this.props.timestamps.first());
 
       d3.select(xAxisElem)
         .call(xAxis);
     }
+  }
+
+  getX() {
+    return d3.time.scale()
+             .domain([this.props.timestamps.first(), this.props.timestamps.last()])
+             .range([0, this.props.width - 120]);
   }
 
   render() {
@@ -124,10 +134,6 @@ class HeatGraph extends Component {
       </svg>
     );
   }
-
-  x = d3.time.scale()
-        .domain([this.props.timestamps.first(), this.props.timestamps.last()])
-        .range([0, this.props.width - 120])
 
   y = d3.scale.linear()
         .domain([this.props.min, this.props.max])

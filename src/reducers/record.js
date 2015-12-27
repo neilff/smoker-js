@@ -17,7 +17,7 @@ const INITIAL_STATE = fromJS({
 export default function recordReducer(state = INITIAL_STATE, { type, payload }) {
   switch (type) {
   case ON_RECORD_TICK:
-    return state.updateIn(['timestamps'], i => i.push(new Date().getTime()))
+    return state.updateIn(['timestamps'], i => i.push(new Date()))
                 .updateIn(['history', 'A'], i => i.push(payload.get('A')))
                 .updateIn(['history', 'B'], i => i.push(payload.get('B')))
                 .updateIn(['history', 'C'], i => i.push(payload.get('C')));

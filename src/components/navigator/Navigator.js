@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react';
 
-import NavigatorItem from './NavigatorItem';
-import Menu from './Menu';
-import Logo from '../common/Logo';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
+import Logo from '../common/Logo';
+import Menu from './Menu';
+import NavigatorItem from './NavigatorItem';
+import RecordingStatus from '../recording/RecordingStatus';
 
-const Navigator = ({ style, toggleMenu, profileVisible, settings }) => {
+const Navigator = ({ style, toggleMenu, profileVisible, settings, isRecording }) => {
   return (
     <div
       style={{ ...styles.base, ...style }}
@@ -16,7 +17,8 @@ const Navigator = ({ style, toggleMenu, profileVisible, settings }) => {
           <Logo />
         </NavigatorItem>
       </div>
-      <div className="flex-end">
+      <div className="flex flex-center flex-justify">
+        <RecordingStatus isRecording={ isRecording } />
         <NavigatorItem className="flex flex-center relative">
           <Button className="btn silver" onClick={ toggleMenu }>
             <Icon
@@ -35,6 +37,7 @@ const Navigator = ({ style, toggleMenu, profileVisible, settings }) => {
 
 Navigator.displayName = 'Navigator';
 Navigator.propTypes = {
+  isRecording: PropTypes.bool.isRequired,
   profileVisible: PropTypes.bool.isRequired,
   settings: PropTypes.object.isRequired,
   style: PropTypes.object,
