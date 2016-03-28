@@ -1,67 +1,87 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { toggleProfileDropdown, closeAllMenus } from '../reducers/ui';
-import { setConversionType } from '../reducers/settings';
+import * as settingsActions from 'modules/settings/actions';
 
-import ContentWrapper from '../components/common/ContentWrapper';
-import Navigator from '../components/navigator/Navigator';
-
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
   return {
     displayUnit: state.settings.get('displayUnit'),
     isRecording: state.record.get('isRecording'),
-    profileVisible: state.ui.get('profileDropdownVisible'),
+    profileVisible: state.settings.getIn(['dropdowns', 'profileVisible']),
   };
-};
+}
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleMenu: (e) => {
-      e.stopPropagation();
-      dispatch(toggleProfileDropdown());
-    },
-    closeMenus: () => dispatch(closeAllMenus()),
-    saveConversionType: (type) => dispatch(setConversionType(type)),
-  };
-};
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(settingsActions, dispatch);
+}
 
-const App = (props) => {
-  const {
-    children,
-    closeMenus,
-    displayUnit,
-    isRecording,
-    profileVisible,
-    saveConversionType,
-    toggleMenu,
-  } = props;
+import ContentWrapper from 'components/ui/ContentWrapper';
+import Navigator from 'components/navigator/Navigator';
 
-  return (
-    <main onClick={ closeMenus }>
-      <Navigator
-        toggleMenu={ toggleMenu }
-        profileVisible={ profileVisible }
-        settings={{
-          saveConversionType,
-          displayUnit,
-        }}
-        isRecording={ isRecording } />
-      <ContentWrapper>
-        { children }
-      </ContentWrapper>
-    </main>
-  );
-};
+export class App extends Component {
+  render() {
+    const {
+      children,
+      closeAllMenus,
+      displayUnit,
+      isRecording,
+      profileVisible,
+      setConversionType,
+      toggleProfileDropdown,
+    } = this.props;
+
+    return (
+      <main onClick={ closeAllMenus }>
+        <Navigator
+          toggleMenu={(e) => {
+            e.stopPropagation();
+            toggleProfileDropdown();
+          }}
+          profileVisible={ profileVisible }
+          settings={{
+            setConversionType,
+            displayUnit,
+          }}
+          isRecording={ isRecording } />
+        <ContentWrapper>
+          { children }
+        </ContentWrapper>
+      </main>
+    );
+  }
+}
 
 App.displayName = 'App';
 App.propTypes = {
+  /**
+   * Children to render inside the app container
+   */
   children: PropTypes.node.isRequired,
-  closeMenus: PropTypes.func.isRequired,
+  /**
+   * Function to fire to close all menus
+   */
+  closeAllMenus: PropTypes.func.isRequired,
+  /**
+   * Whether the recording suite is running
+   */
   isRecording: PropTypes.bool.isRequired,
+  /**
+   * Whether the profile dropdown is visible
+   */
   profileVisible: PropTypes.bool.isRequired,
-  saveConversionType: PropTypes.func.isRequired,
-  toggleMenu: PropTypes.func.isRequired,
+  /**
+   * Fired when a conversion type is selected
+   */
+  setConversionType: PropTypes.func.isRequired,
+  /**
+   * Toggles the navigator menu
+   */
+  toggleProfileDropdown: PropTypes.func.isRequired,
+  /**
+   * The display unit that is currently being used
+   */
+  displayUnit: PropTypes.string.isRequired,
 };
 App.defaultProps = {};
 
