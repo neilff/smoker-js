@@ -1,30 +1,37 @@
 # Smoker.js
+====
 
 > Smoker.js is a Johhny Five BBQ thermometer powered by a Particle Photon
 
 ![Alt text](/screenshot.png?raw=true "Smoker.js UI")
 
 ## Description
+====
 
 Hooks up with a [Particle Photon](https://store.particle.io/) to create a BBQ thermometer. The readings emitted from the BBQ thermometer can be read via websocket.
 
 ## Installation
+====
 
 ```bash
 $ npm install
 ```
 
-## Usage
+## Development
+====
 
-The server provides a emulator, you can run the emulator by running the following command:
+The server provides a mock device which will generate random numbers for use in development
 
 ```bash
+$ npm install
 $ npm run dev
 ```
 
-Otherwise, the server can be used in production by running the following:
+## Production
+====
 
 ```bash
+$ npm install
 $ npm run start
 ```
 

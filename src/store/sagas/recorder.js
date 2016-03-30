@@ -10,11 +10,9 @@ import {
 } from 'modules/record/actionTypes';
 
 function selectReadings(state) {
-  return {
-    A: convertKelvinToF(state.gauges.getIn(['A', 'current'])),
-    B: convertKelvinToF(state.gauges.getIn(['B', 'current'])),
-    C: convertKelvinToF(state.gauges.getIn(['C', 'current'])),
-  };
+  return state.gauges.map(i => {
+    return convertKelvinToF(i.get('disabled') ? 0 : i.get('current'));
+  }).toJS();
 }
 
 function selectRecording(state) {

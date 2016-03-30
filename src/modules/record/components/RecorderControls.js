@@ -1,4 +1,20 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as recordActions from 'modules/record/actions';
+
+function mapStateToProps(state) {
+  return {
+    isRecording: state.record.get('isRecording'),
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    ...recordActions,
+  }, dispatch);
+}
 
 import Button from 'components/ui/Button';
 
@@ -24,13 +40,28 @@ const RecorderControls = (props) => {
 
 RecorderControls.displayName = 'RecorderControls';
 RecorderControls.propTypes = {
-  isRecording: PropTypes.bool.isRequired,
-  resetRecording: PropTypes.func.isRequired,
-  startRecording: PropTypes.func.isRequired,
-  stopRecording: PropTypes.func.isRequired,
+  /**
+   * Whether the recorder is enabled or not
+   */
+  isRecording: PropTypes.bool,
+  /**
+   * Function fired to reset the recording
+   */
+  resetRecording: PropTypes.func,
+  /**
+   * Function fired to start the recording
+   */
+  startRecording: PropTypes.func,
+  /**
+   * Function fired to stop the recording
+   */
+  stopRecording: PropTypes.func,
 };
 RecorderControls.defaultProps = {
   isRecording: false,
 };
 
-export default RecorderControls;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RecorderControls);

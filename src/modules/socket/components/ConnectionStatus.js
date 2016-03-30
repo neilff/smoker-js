@@ -1,15 +1,11 @@
 import React, { PropTypes } from 'react';
 
-import Circle from 'components/ui/Circle';
-
-const ConnectionStatus = ({ isConnected }) => {
+const ConnectionStatus = ({ connected }) => {
   return (
-    <div>
-      Connection Status:
-      <Circle
-        width={ 16 }
-        filled={ true }
-        color={ isConnected ? 'lightblue' : 'orange' } />
+    <div
+      style={ styles }
+      className="absolute">
+      { connected ? 'Connected' : 'Disconnected' }
     </div>
   );
 };
@@ -19,10 +15,19 @@ ConnectionStatus.propTypes = {
   /**
    * Whether the socket connection is live or not
    */
-  isConnected: PropTypes.bool,
+  connected: PropTypes.bool,
 };
 ConnectionStatus.defaultProps = {
-  isConnected: false,
+  connected: false,
+};
+
+const styles = {
+  bottom: -20,
+  left: 0,
+  textTransform: 'uppercase',
+  fontSize: 12,
+  fontWeight: 100,
+  color: '#777',
 };
 
 export default ConnectionStatus;

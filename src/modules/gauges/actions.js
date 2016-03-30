@@ -3,6 +3,7 @@ import {
   SET_GAUGE_TITLE,
   SET_MENU_VISIBILITY,
   SET_THRESHOLD_SETTING,
+  SET_GAUGE_STATUS,
 } from './actionTypes';
 
 import {
@@ -22,6 +23,18 @@ export function toggleMenuVisibility(id) {
       payload: {
         id,
         value: !getState().gauges.getIn([id, 'menuVisible']),
+      },
+    });
+  };
+}
+
+export function setGaugeStatus(id) {
+  return (dispatch, getState) => {
+    return dispatch({
+      type: SET_GAUGE_STATUS,
+      payload: {
+        id,
+        value: !getState().gauges.getIn([id, 'disabled']),
       },
     });
   };
@@ -47,7 +60,7 @@ export function setTitle(id, value) {
   };
 }
 
-export function setThreshold(key, id, value) {
+export function setThreshold(id, key, value) {
   return (dispatch, getState) => {
     const unit = getState().settings.get('displayUnit');
 

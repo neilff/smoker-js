@@ -1,3 +1,5 @@
+import leftpad from 'left-pad';
+
 export function convertKelvinToF(K) {
   let tempF;
 
@@ -51,4 +53,14 @@ export function calculateDonutArc(width, radius) {
     .outerRadius(width / 2)
     .innerRadius((width / 2) - radius)
     .startAngle(0);
+}
+
+export function convertMsToTime(ms) {
+  let ss = parseInt(ms / 1000, 10);
+  const hh = parseInt(ss / 3600, 10);
+  ss = ss % 3600;
+  const mm = parseInt(ss / 60, 10);
+  ss = ss % 60;
+
+  return `${ leftpad(hh, 2, 0) }:${ leftpad(mm, 2, 0) }:${ leftpad(ss, 2, 0) }`;
 }

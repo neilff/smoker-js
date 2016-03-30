@@ -1,6 +1,6 @@
 {
   "name": "smoker-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Smoker.js",
   "engines": {
     "node": "4.x"
@@ -63,6 +63,7 @@
     "express": "^4.13.4",
     "immutable": "^3.7.6",
     "ionicons": "^2.0.1",
+    "left-pad": "^1.0.1",
     "node-sass": "^3.4.2",
     "particle-io": "^0.12.0",
     "radium": "^0.17.0",

@@ -8,6 +8,7 @@ function mapStateToProps(state) {
   return {
     displayUnit: state.settings.get('displayUnit'),
     isRecording: state.record.get('isRecording'),
+    isOnline: state.socket.get('connected'),
     profileVisible: state.settings.getIn(['dropdowns', 'profileVisible']),
   };
 }
@@ -25,6 +26,7 @@ export class App extends Component {
       children,
       closeAllMenus,
       displayUnit,
+      isOnline,
       isRecording,
       profileVisible,
       setConversionType,
@@ -43,7 +45,8 @@ export class App extends Component {
             setConversionType,
             displayUnit,
           }}
-          isRecording={ isRecording } />
+          isRecording={ isRecording }
+          isOnline={ isOnline } />
         <ContentWrapper>
           { children }
         </ContentWrapper>
@@ -66,6 +69,10 @@ App.propTypes = {
    * Whether the recording suite is running
    */
   isRecording: PropTypes.bool.isRequired,
+  /**
+   * Whether the application is online or not
+   */
+  isOnline: PropTypes.bool.isRequired,
   /**
    * Whether the profile dropdown is visible
    */

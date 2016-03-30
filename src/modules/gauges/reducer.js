@@ -4,6 +4,7 @@ import {
   SET_GAUGE_TITLE,
   SET_MENU_VISIBILITY,
   SET_THRESHOLD_SETTING,
+  SET_GAUGE_STATUS,
 } from './actionTypes';
 import { ON_TEMP_UPDATE } from 'constants';
 import { ON_CONNECTED } from 'modules/socket/actionTypes';
@@ -11,28 +12,34 @@ import { HIDE_MENUS } from 'modules/settings/actionTypes';
 
 const INITIAL_STATE = fromJS({
   A: {
+    id: 'A',
     current: null,
     high: 305,
     low: 295,
     title: 'Gauge A',
     menuVisible: false,
     color: 'red',
+    disabled: false,
   },
   B: {
+    id: 'B',
     current: null,
     high: 305,
     low: 295,
     title: 'Gauge B',
     menuVisible: false,
     color: 'green',
+    disabled: false,
   },
   C: {
+    id: 'C',
     current: null,
     high: 305,
     low: 295,
     title: 'Gauge C',
     menuVisible: false,
     color: 'blue',
+    disabled: false,
   },
 });
 
@@ -63,6 +70,9 @@ export default function readingsReducer(state = INITIAL_STATE, { type, payload }
 
     case SET_MENU_VISIBILITY:
       return state.setIn([payload.id, 'menuVisible'], payload.value);
+
+    case SET_GAUGE_STATUS:
+      return state.setIn([payload.id, 'disabled'], payload.value);
 
     case HIDE_MENUS:
       return state.map(i => i.set('menuVisible', false));

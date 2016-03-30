@@ -6,15 +6,26 @@ import Logo from 'components/ui/Logo';
 import Menu from 'components/navigator/Menu';
 import NavigatorItem from 'components/navigator/NavigatorItem';
 import RecordingStatus from 'modules/record/components/RecordingStatus';
+import ConnectionStatus from 'modules/socket/components/ConnectionStatus';
 
-const Navigator = ({ style, toggleMenu, profileVisible, settings, isRecording }) => {
+const Navigator = (props) => {
+  const {
+    style,
+    toggleMenu,
+    profileVisible,
+    settings,
+    isRecording,
+    isOnline,
+  } = props;
+
   return (
     <div
       style={{ ...styles.base, ...style }}
       className="fixed flex flex-center top-0 left-0 right-0 z4">
       <div className="flex-auto">
-        <NavigatorItem className="flex-auto">
+        <NavigatorItem className="relative flex-auto">
           <Logo />
+          <ConnectionStatus connected={ isOnline } />
         </NavigatorItem>
       </div>
       <div className="flex flex-center flex-justify">
@@ -42,6 +53,7 @@ Navigator.propTypes = {
   settings: PropTypes.object.isRequired,
   style: PropTypes.object,
   toggleMenu: PropTypes.func.isRequired,
+  isOnline: PropTypes.bool,
 };
 Navigator.defaultProps = {
   style: {},

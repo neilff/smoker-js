@@ -1,4 +1,19 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+
+import { setThreshold } from 'modules/gauges/actions';
+
+function mapStateToProps() {
+  return {};
+}
+
+function mapDispatchToProps(dispatch, ownProps) {
+  const idx = ownProps.idx;
+
+  return {
+    onSave: (key, value) => dispatch(setThreshold(idx, key, value)),
+  };
+}
 
 import Circle from 'components/ui/Circle';
 import ThresholdInput from './ThresholdInput';
@@ -10,6 +25,7 @@ const ThresholdSetting = (props) => {
     className,
     color,
     onSave,
+    target,
     value,
   } = props;
 
@@ -31,7 +47,7 @@ const ThresholdSetting = (props) => {
 
       <ThresholdInput
         style={ styles.input }
-        onSave={ onSave }
+        onSave={ (val) => onSave(target, val) }
         value={ value } />
     </div>
   );
@@ -39,14 +55,16 @@ const ThresholdSetting = (props) => {
 
 ThresholdSetting.displayName = 'ThresholdSetting';
 ThresholdSetting.propTypes = {
-  onSave: PropTypes.func,
-  value: PropTypes.string,
   atThreshold: PropTypes.bool.isRequired,
   children: PropTypes.node,
   className: PropTypes.string,
   color: PropTypes.string,
   filled: PropTypes.bool,
+  onSave: PropTypes.func,
+  target: PropTypes.oneOf(['high', 'low']),
+  value: PropTypes.string,
   width: PropTypes.string,
+  measurement: PropTypes.oneOf(['C', 'F']),
 };
 ThresholdSetting.defaultProps = {
   atThreshold: false,
@@ -69,4 +87,7 @@ const styles = {
   },
 };
 
-export default ThresholdSetting;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ThresholdSetting);

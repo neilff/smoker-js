@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const TemperatureWarning = ({ children, className = '', style = {}, isVisible }) => {
+const TemperatureWarning = ({ children, className, style, isVisible }) => {
   const warningStyle = isVisible ?
     styles.isVisible :
     styles.isHidden;
@@ -12,6 +12,30 @@ const TemperatureWarning = ({ children, className = '', style = {}, isVisible })
       { children }
     </div>
   );
+};
+
+TemperatureWarning.displayName = 'TemperatureWarning';
+TemperatureWarning.propTypes = {
+  /**
+   * The content to render inside the warning
+   */
+  children: PropTypes.node,
+  /**
+   * CSS classes to pass onto the component
+   */
+  className: PropTypes.string,
+  /**
+   * CSS styles to pass onto the component
+   */
+  style: PropTypes.object,
+  /**
+   * Whether the component is visible or not
+   */
+  isVisible: PropTypes.bool,
+};
+TemperatureWarning.defaultProps = {
+  className: '',
+  style: {},
 };
 
 const styles = {
