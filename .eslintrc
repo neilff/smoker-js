@@ -119,7 +119,7 @@
 /**
  * Style
  */
-    "indent": [2, 2],                // http://eslint.org/docs/rules/indent
+     "indent": [2, 2, {"SwitchCase": 1}],                // http://eslint.org/docs/rules/indent
     "brace-style": [2,               // http://eslint.org/docs/rules/brace-style
       "1tbs", {
       "allowSingleLine": true
@@ -172,7 +172,8 @@
  * JSX style
  */
     "react/display-name": 0,         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md
-    "react/jsx-boolean-value": 2,    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md
+    //"react/jsx-boolean-value": 2,    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md
+    "react/jsx-quotes": 0,           // deprecated
     "jsx-quotes": [2, "prefer-double"], // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-quotes.md
     "react/jsx-no-undef": 2,         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-undef.md
     "react/jsx-sort-props": 0,       // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-sort-props.md
@@ -182,7 +183,7 @@
     "react/no-did-mount-set-state": [2, "allow-in-func"], // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-did-mount-set-state.md
     "react/no-did-update-set-state": 2, // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-did-update-set-state.md
     "react/no-multi-comp": 2,        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-multi-comp.md
-    "react/no-unknown-property": 2,  // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unknown-property.md
+    "react/no-unknown-property": 1,  // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unknown-property.md
     "react/prop-types": 2,           // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prop-types.md
     "react/react-in-jsx-scope": 2,   // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md
     "react/self-closing-comp": 2,    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md
@@ -196,12 +197,12 @@
         "mixins",
         "statics",
         "defaultProps",
-         "/^_(?!(on|get|render))/",
         "constructor",
         "getDefaultProps",
         "getInitialState",
         "state",
         "getChildContext",
+         "/^_(?!(on|get|render))/",
         "componentWillMount",
         "componentDidMount",
         "componentWillReceiveProps",

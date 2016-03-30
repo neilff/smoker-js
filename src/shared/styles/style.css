@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
+
+html,
+body {
+  background-color: #212121;
+  color: #FFFFFF;
+  font-family: 'Roboto';
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Roboto';
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.y.axis line {
+  stroke: none;
+}
+
+.y.axis text {
+  fill: #ff4136;
+  font-weight: 100;
+  font-size: 0.75rem;
+}
+
+.y.axis .minor {
+  stroke-opacity: .5;
+}
+
+.y.axis path {
+  fill: none;
+  stroke: #ff4136;
+}
+
+.x.axis line {
+  stroke: none;
+}
+
+.x.axis text {
+  fill: #ddd;
+  font-weight: 100;
+  font-size: 0.75rem;
+}
+
+.x.axis .minor {
+  stroke-opacity: .5;
+}
+
+.x.axis path {
+  fill: none;
+  stroke: #424242;
+}
