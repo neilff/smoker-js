@@ -1,8 +1,8 @@
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import wait from 'utils/wait';
+import wait from 'shared/utils/wait';
 
-import { convertKelvinToF } from 'utils/conversion';
+import { convertKelvinToF } from 'shared/utils/conversion';
 
 import {
   RECORD_TICK,

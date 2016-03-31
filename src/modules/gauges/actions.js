@@ -9,7 +9,7 @@ import {
 import {
   convertFahrenheitToK,
   convertCelciusToK,
-} from 'utils/conversion';
+} from 'shared/utils/conversion';
 
 const convertToK = {
   F: convertFahrenheitToK,

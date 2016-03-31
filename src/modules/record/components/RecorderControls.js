@@ -16,7 +16,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-import Button from 'components/ui/Button';
+import Button from 'shared/components/ui/Button';
 
 const RecorderControls = (props) => {
   const {

@@ -37,10 +37,10 @@ function mapDispatchToProps(dispatch, ownProps) {
   };
 }
 
-import Dropdown from 'components/ui/Dropdown';
-import Button from 'components/ui/Button';
-import Icon from 'components/ui/Icon';
-import ContentEditable from 'components/ui/ContentEditable';
+import Dropdown from 'shared/components/ui/Dropdown';
+import Button from 'shared/components/ui/Button';
+import Icon from 'shared/components/ui/Icon';
+import ContentEditable from 'shared/components/ui/ContentEditable';
 
 const GaugeMenu = (props) => {
   const {

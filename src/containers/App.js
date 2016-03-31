@@ -17,8 +17,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(settingsActions, dispatch);
 }
 
-import ContentWrapper from 'components/ui/ContentWrapper';
-import Navigator from 'components/navigator/Navigator';
+import ContentWrapper from 'shared/components/ui/ContentWrapper';
+import Navigator from 'shared/components/navigator/Navigator';
 
 export class App extends Component {
   render() {

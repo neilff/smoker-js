@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 
-import Button from 'components/ui/Button';
-import Icon from 'components/ui/Icon';
-import Logo from 'components/ui/Logo';
-import Menu from 'components/navigator/Menu';
-import NavigatorItem from 'components/navigator/NavigatorItem';
+import Button from 'shared/components/ui/Button';
+import Icon from 'shared/components/ui/Icon';
+import Logo from 'shared/components/ui/Logo';
+import Menu from 'shared/components/navigator/Menu';
+import NavigatorItem from 'shared/components/navigator/NavigatorItem';
 import RecordingStatus from 'modules/record/components/RecordingStatus';
 import ConnectionStatus from 'modules/socket/components/ConnectionStatus';
 

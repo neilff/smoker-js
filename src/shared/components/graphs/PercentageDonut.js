@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 
-import Chart from 'components/graphs/common/Chart';
-import AnimatedFixedPath from 'components/graphs/common/AnimatedFixedPath';
+import Chart from 'shared/components/graphs/common/Chart';
+import AnimatedFixedPath from 'shared/components/graphs/common/AnimatedFixedPath';
 
-import { convertValue, calculateDonutArc } from 'utils/conversion';
+import { convertValue, calculateDonutArc } from 'shared/utils/conversion';
 
 const defaultColors = [
   '#0074d9',

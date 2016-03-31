@@ -15,7 +15,7 @@ function mapDispatchToProps(dispatch, ownProps) {
   };
 }
 
-import Circle from 'components/ui/Circle';
+import Circle from 'shared/components/ui/Circle';
 import ThresholdInput from './ThresholdInput';
 
 const ThresholdSetting = (props) => {

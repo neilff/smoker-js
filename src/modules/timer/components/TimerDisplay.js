@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { convertMsToTime } from 'utils/conversion';
+import { convertMsToTime } from 'shared/utils/conversion';
 
 function mapStateToProps(state, ownProps) {
   return {

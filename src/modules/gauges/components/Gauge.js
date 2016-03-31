@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   convertKelvinToF,
   convertKelvinToC,
-} from 'utils/conversion';
+} from 'shared/utils/conversion';
 
 const conversionTable = {
   C: convertKelvinToC,
@@ -30,7 +30,7 @@ function mapDispatchToProps() {
 
 import GaugeTitle from 'modules/gauges/components/GaugeTitle';
 import GaugeMenu from 'modules/gauges/components/GaugeMenu';
-import PercentageDonut from 'components/graphs/PercentageDonut';
+import PercentageDonut from 'shared/components/graphs/PercentageDonut';
 import TemperatureReading from 'modules/gauges/components/TemperatureReading';
 import ThresholdSetting from 'modules/gauges/components/ThresholdSetting';
 import Warning from 'modules/gauges/components/Warning';

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import InputNumber from 'components/input/Number';
+import InputNumber from 'shared/components/input/Number';
 
 const ThresholdInput = ({ onSave, value, className, style }) => {
   return (

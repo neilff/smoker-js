@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Break from 'components/ui/Break';
+import Break from 'shared/components/ui/Break';
 import GaugeList from 'modules/gauges/components/GaugeList';
-import Row from 'components/ui/Row';
+import Row from 'shared/components/ui/Row';
 import RecorderControls from 'modules/record/components/RecorderControls';
 import Legend from 'modules/gauges/components/Legend';
 import HeatGraph from 'modules/record/components/HeatGraph';

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
-import Dropdown from 'components/ui/Dropdown';
-import Icon from 'components/ui/Icon';
+import Dropdown from 'shared/components/ui/Dropdown';
+import Icon from 'shared/components/ui/Icon';
 
 const Menu = ({ isVisible, setConversionType, displayUnit }) => {
   const displayUnitOptions = [

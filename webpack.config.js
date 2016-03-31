@@ -23,17 +23,11 @@ module.exports = {
   resolve: {
     root: path.resolve(__dirname),
     alias: {
-      api: 'src/shared/api',
-      assets: 'src/shared/assets',
-      components: 'src/shared/components',
-      constants: 'src/shared/constants',
-      styles: 'src/shared/styles',
-      utils: 'src/shared/utils',
-      socket: 'src/shared/socket',
       containers: 'src/containers',
       modules: 'src/modules',
       constants: 'constants',
       store: 'src/store',
+      shared: 'src/shared',
     },
     extensions: ['', '.js', '.jsx'],
   },

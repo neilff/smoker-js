@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Map, List, is } from 'immutable';
 import { connect } from 'react-redux';
-import { convertFahrenheitToC } from 'utils/conversion';
+import { convertFahrenheitToC } from 'shared/utils/conversion';
 
 function mapStateToProps(state) {
   return {
@@ -16,7 +16,7 @@ function mapDispatchToProps() {
   return {};
 }
 
-import Path from 'components/graphs/common/Path';
+import Path from 'shared/components/graphs/common/Path';
 
 class HeatGraph extends Component {
   componentDidMount() {

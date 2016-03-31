@@ -17,7 +17,7 @@ function mapDispatchToProps(dispatch, ownProps) {
   };
 }
 
-import ContentEditable from 'components/ui/ContentEditable';
+import ContentEditable from 'shared/components/ui/ContentEditable';
 
 const GaugeTitle = ({ title, onUpdateTitle }) => {
   return (

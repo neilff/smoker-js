@@ -1,6 +1,6 @@
 import { takeEvery } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import wait from 'utils/wait';
+import wait from 'shared/utils/wait';
 
 import { START_TIMER } from 'modules/timer/actionTypes';
 import { timerTick } from 'modules/timer/actions';

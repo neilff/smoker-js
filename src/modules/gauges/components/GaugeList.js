@@ -12,7 +12,7 @@ function mapDispatchToProps() {
   return {};
 }
 
-import Column from 'components/ui/Column';
+import Column from 'shared/components/ui/Column';
 import Gauge from 'modules/gauges/components/Gauge';
 
 const GaugeList = ({ gauges }) => {

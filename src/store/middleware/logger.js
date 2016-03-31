@@ -1,5 +1,5 @@
 import createLogger from 'redux-logger';
-import immutableToJS from 'utils/immutableToJS';
+import immutableToJS from 'shared/utils/immutableToJS';
 
 // Blacklisted actions
 import { HIDE_MENUS } from 'modules/settings/actionTypes';
