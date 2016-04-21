@@ -2,6 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+console.log('========================================================');
+console.log('WEBPACK NODE_ENV :: ', JSON.stringify(process.env.NODE_ENV));
+console.log('========================================================');
+
 function getEntrySources(sources) {
   if (process.env.NODE_ENV !== 'production') {
     sources.push('webpack-hot-middleware/client');
@@ -9,6 +13,34 @@ function getEntrySources(sources) {
 
   return sources;
 }
+
+const basePlugins = [
+  new webpack.DefinePlugin({
+    __DEV__: process.env.NODE_ENV !== 'production',
+    __PRODUCTION__: process.env.NODE_ENV === 'production',
+    __MOCK_API__: process.env.MOCK_API === 'true',
+    __TEST_UTILS__: process.env.NODE_ENV !== 'production' || process.env.QA_ENV === 'true',
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+  }),
+  new ExtractTextPlugin('styles.css'),
+];
+
+const devPlugins = [
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NoErrorsPlugin(),
+];
+
+const prodPlugins = [
+  new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.optimize.UglifyJsPlugin({
+    compressor: {
+      warnings: false,
+    },
+  }),
+];
+
+const plugins = basePlugins
+  .concat(process.env.NODE_ENV === 'production' ? prodPlugins : devPlugins);
 
 module.exports = {
   devtool: process.env.NODE_ENV !== 'production' ? 'eval-source-map' : '',
@@ -31,26 +63,7 @@ module.exports = {
     },
     extensions: ['', '.js', '.jsx'],
   },
-  plugins: process.env.NODE_ENV !== 'production' ?
-    [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
-      new ExtractTextPlugin('styles.css'),
-    ] :
-    [
-      new webpack.optimize.OccurenceOrderPlugin(),
-      new webpack.DefinePlugin({
-        'process.env': {
-          'NODE_ENV': JSON.stringify('production'),
-        },
-      }),
-      new webpack.optimize.UglifyJsPlugin({
-        compressor: {
-          warnings: false,
-        },
-      }),
-      new ExtractTextPlugin('styles.css'),
-    ],
+  plugins: plugins,
   module: {
     preLoaders: [
       {
@@ -66,15 +79,15 @@ module.exports = {
           'css-loader',
           'postcss-loader',
           'cssnext-loader'
-        ),
+        )
       },
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
           'css-loader',
-          'sass-loader',
-        ),
+          'sass-loader'
+        )
       },
       {
         test: /\.js$/,

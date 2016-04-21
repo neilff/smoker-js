@@ -7,14 +7,14 @@ import localstore from './middleware/localstore';
 
 import rootReducer from './rootReducer';
 
+const middlewares = __DEV__ ?
+  [sagas, thunk, logger] :
+  [sagas, thunk];
+
 function configureStore(initialState) {
   const createStoreWithMiddleware = compose(
     global && global.localStorage ? localstore : f => f,
-    applyMiddleware(
-      ...process.env.NODE_ENV !== 'production' ?
-        [sagas, thunk, logger] :
-        [sagas, thunk],
-    ),
+    applyMiddleware(...middlewares),
   )(createStore);
 
   const store = createStoreWithMiddleware(rootReducer, initialState);

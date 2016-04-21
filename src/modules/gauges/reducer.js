@@ -1,3 +1,4 @@
+import { GAUGE_PINS } from 'constants';
 import { fromJS } from 'immutable';
 import {
   SET_GAUGE_COLOR,
@@ -10,54 +11,28 @@ import { ON_TEMP_UPDATE } from 'constants';
 import { ON_CONNECTED } from 'modules/socket/actionTypes';
 import { HIDE_MENUS } from 'modules/settings/actionTypes';
 
-const INITIAL_STATE = fromJS({
-  A: {
-    id: 'A',
+const initialState = GAUGE_PINS.reduce((acc, i) => {
+  acc[i] = {
+    id: i,
     current: null,
     high: 305,
     low: 295,
-    title: 'Gauge A',
+    title: `Gauge ${ i }`,
     menuVisible: false,
     color: 'red',
     disabled: false,
-  },
-  B: {
-    id: 'B',
-    current: null,
-    high: 305,
-    low: 295,
-    title: 'Gauge B',
-    menuVisible: false,
-    color: 'green',
-    disabled: false,
-  },
-  C: {
-    id: 'C',
-    current: null,
-    high: 305,
-    low: 295,
-    title: 'Gauge C',
-    menuVisible: false,
-    color: 'blue',
-    disabled: false,
-  },
-});
+  };
 
-export default function readingsReducer(state = INITIAL_STATE, { type, payload }) {
+  return acc;
+}, {});
+
+export default function gaugesReducer(state = fromJS(initialState), { type, payload }) {
   switch (type) {
     case ON_CONNECTED:
+      return state.map((i, idx) => i.set('current', payload[idx]));
+
     case ON_TEMP_UPDATE:
-      return state.mergeDeep(fromJS({
-        A: {
-          current: payload.A,
-        },
-        B: {
-          current: payload.B,
-        },
-        C: {
-          current: payload.C,
-        },
-      }));
+      return state.setIn([payload.id, 'current'], payload.value);
 
     case SET_THRESHOLD_SETTING:
       return state.setIn([...payload.path], payload.value);

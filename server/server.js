@@ -3,21 +3,28 @@ import express from 'express';
 import http from 'http';
 import path from 'path';
 import socketIO from 'socket.io';
-import { logmap } from './utils/logger';
+import logmap from './utils/logger';
 import config from '../config.json';
 import connectMock from './device/connectMock';
 import connectPhoto from './device/connectPhoton';
-import { SOCKET_UPDATE_TIME } from '../constants';
+import { SOCKET_UPDATE_TIME, GAUGE_PINS } from '../constants';
 
 const PORT = process.env.PORT || 8001;
 const NODE_ENV = process.env.NODE_ENV || 'production';
 
 const app = express();
 
+// Setup lastGaugeReading global to store readings
+global.lastGaugeReading = GAUGE_PINS.reduce((acc, i) => {
+  acc[i] = null;
+
+  return acc;
+}, {});
+
 // Configure Express
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/dist', express.static('dist'));
-app.use(express.static(__dirname + '/public'));
+app.use('/dist', express.static(path.join(__dirname, '..', '/dist')));
+app.use('/public', express.static(path.join(__dirname, '..', '/dist')));
 
 // Compile webpack bundle in development
 if (NODE_ENV !== 'production') {

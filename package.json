@@ -10,8 +10,8 @@
     "test": "NODE_PATH=./src mocha ./src/**/__tests__/*.spec.js --require ./testing/testConfig.js --compilers js:babel-register --recursive",
     "test:watch": "npm test -- --watch",
     "clean": "rimraf static/ dist/",
-    "build": "npm run clean && npm run build:webpack",
-    "start": "babel-node server/index.js",
+    "build": "npm run clean && env NODE_ENV=production webpack",
+    "start": "npm run build; node server/index.js",
     "dev": "npm run clean; NODE_ENV=development nodemon --exec node server/index.js",
     "lint": "eslint src"
   },

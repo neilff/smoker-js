@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable';
+import { GAUGE_PINS } from 'constants';
 import {
   TIMER_TICK,
   START_TIMER,
@@ -6,25 +7,17 @@ import {
   RESET_TIMER,
 } from './actionTypes';
 
-const INITIAL_STATE = fromJS({
-  A: {
-    id: 'A',
+const initialState = GAUGE_PINS.reduce((acc, i) => {
+  acc[i] = {
+    id: i,
     time: 0,
     timerEnabled: false,
-  },
-  B: {
-    id: 'B',
-    time: 0,
-    timerEnabled: false,
-  },
-  C: {
-    id: 'C',
-    time: 0,
-    timerEnabled: false,
-  },
-});
+  };
 
-export default function timerReducer(state = INITIAL_STATE, { type, payload }) {
+  return acc;
+}, {});
+
+export default function timerReducer(state = fromJS(initialState), { type, payload }) {
   switch (type) {
     case TIMER_TICK:
       return state.setIn([payload.id, 'time'], payload.value);

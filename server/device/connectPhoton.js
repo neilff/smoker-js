@@ -2,10 +2,8 @@ import five from 'johnny-five';
 import Particle from 'particle-io';
 import invariant from 'invariant';
 import convertVoltToK from '../utils/convertVoltToK';
-import { ON_TEMP_UPDATE, SOCKET_UPDATE_TIME } from '../../constants';
-
-const PARTICLE_TOKEN = process.env.PARTICLE_TOKEN;
-const PARTICLE_DEVICE_ID = process.env.PARTICLE_DEVICE_ID;
+import { ON_TEMP_UPDATE, SOCKET_UPDATE_TIME, GAUGE_PINS } from '../../constants';
+import { PARTICLE_TOKEN, PARTICLE_DEVICE_ID } from '../../config.json';
 
 export default function connectPhoton(io) {
   invariant(
@@ -18,6 +16,20 @@ export default function connectPhoton(io) {
     'Particle Device ID not provided, please set the PARTICLE_DEVICE_ID envirnment variable.'
   );
 
+  function sendAction(id) {
+    return function() {
+      const { value } = this;
+
+      io.sockets.emit('action', {
+        type: ON_TEMP_UPDATE,
+        payload: {
+          id,
+          value: convertVoltToK(value),
+        },
+      });
+    }
+  }
+
   const board = new five.Board({
     io: new Particle({
       token: PARTICLE_TOKEN,
@@ -27,21 +39,15 @@ export default function connectPhoton(io) {
 
   console.log('Connecting to Photon...');
 
-  board.on('ready', function() {
+  board.on('ready', () => {
     console.log('Photon Ready!');
 
-    var sensor = new five.Sensor({
-      pin: 'A1',
-      freq: SOCKET_UPDATE_TIME
-    });
+    const sensors = GAUGE_PINS.reduce((acc, idx) => {
+      acc[idx] = new five.Sensor({ pin: idx, freq: SOCKET_UPDATE_TIME });
 
-    sensor.on('change', function() {
-      const val = this.value;
+      return acc;
+    }, {});
 
-      io.sockets.emit('action', {
-        type: ON_TEMP_UPDATE,
-        payload: convertVoltToK(val)
-      });
-    });
+    GAUGE_PINS.forEach(idx => sensors[idx].on('change', sendAction(idx)));
   });
 }

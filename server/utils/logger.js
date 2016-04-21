@@ -7,7 +7,7 @@ import winston from 'winston';
  * @param {object} config An object to map over
  * @return {undefined} undefined
  */
-export function logmap(config) {
+export default function logmap(config) {
   const keys = Object.keys(config);
   const log = keys.map(i => {
     const val = config[i] !== null ? `\n${ chalk.green.bold(config[i]) }` : '';
