@@ -1,7 +1,7 @@
 import five from 'johnny-five';
 import Particle from 'particle-io';
 import invariant from 'invariant';
-import convertVoltToK from '../utils/convertVoltToK';
+import convertVoltToK, { convertVoltToTemp } from '../utils/convertVoltToK';
 import { ON_TEMP_UPDATE, SOCKET_UPDATE_TIME, GAUGE_PINS } from '../../constants';
 import { PARTICLE_TOKEN, PARTICLE_DEVICE_ID } from '../../config.json';
 
@@ -19,6 +19,10 @@ export default function connectPhoton(io) {
   function sendAction(id) {
     return function() {
       const { value } = this;
+
+      if (id === 'A2') {
+        console.log('A2 :: ', value,  convertVoltToTemp(value));
+      }
 
       io.sockets.emit('action', {
         type: ON_TEMP_UPDATE,

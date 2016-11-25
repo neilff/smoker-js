@@ -6,11 +6,19 @@ import socketIO from 'socket.io';
 import logmap from './utils/logger';
 import config from '../config.json';
 import connectMock from './device/connectMock';
-import connectPhoto from './device/connectPhoton';
+import connectPhoton from './device/connectPhoton';
+import connectArduino from './device/connectArduino';
+import invariant from 'invariant';
 import { SOCKET_UPDATE_TIME, GAUGE_PINS } from '../constants';
 
 const PORT = process.env.PORT || 8001;
 const NODE_ENV = process.env.NODE_ENV || 'production';
+const DEVICE_TYPE = process.env.DEVICE_TYPE || 'mock';
+
+invariant(
+  DEVICE_TYPE === 'mock' || DEVICE_TYPE === 'photon' || DEVICE_TYPE === 'arduino',
+  'The DEVICE_TYPE environment variable is incorrectly set.'
+);
 
 const app = express();
 
@@ -55,8 +63,7 @@ logmap({
   'Smoker.js Online': null,
   'Address:': `http://localhost:${ PORT }`,
   'NODE_ENV:': NODE_ENV,
-  'PARTICLE_TOKEN': process.env.PARTICLE_TOKEN,
-  'PARTICLE_DEVICE_ID': process.env.PARTICLE_DEVICE_ID,
+  'DEVICE_TYPE': DEVICE_TYPE,
   'SOCKET_UPDATE_TIME': SOCKET_UPDATE_TIME,
   'config.json:': JSON.stringify(config, null, 2),
 });
@@ -64,8 +71,18 @@ logmap({
 // Send welcome message to connections
 io.on('connection', (socket) => socket.emit('connected', global.lastGaugeReading));
 
-// In development, mock the device, in production attempt to connect to the Photon
-const createDeviceConnection = NODE_ENV !== 'production' ? connectMock : connectPhoto;
+const createDeviceConnection = (() => {
+  switch (DEVICE_TYPE) {
+    case 'arduino':
+      return connectArduino
+
+    case 'photon':
+      return connectPhoton;
+
+    default:
+      return connectMock;
+  }
+})();
 
 createDeviceConnection(io);
 
